@@ -24,6 +24,9 @@ def cli():
     stream = watcher.stream(core_api.list_pod_for_all_namespaces, timeout_seconds=0)
     for raw_event in stream:
         raw_object = raw_event['raw_object']
+        name = yaml_path_extract_value(raw_object, "metadata.name")
+        namespace = yaml_path_extract_value(raw_object, "metadata.namespace")
+        print(f"Inspecting: {name} in {namespace}")
         for pod_filter in pod_filters:
             if trigger(pod_filter, raw_object):
                 retrievals = extract_message_values(pod_filter['retrieves'], raw_object)
