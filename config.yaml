@@ -11,10 +11,12 @@ filters:
     triggers:
 #      - NONZERO_EXIT_CODE
       - status.containerStatuses[*].state.terminated.exitCode != 0
-    retrieves:
-      NAME: metadata.name
-      NAMESPACE: metadata.namespace
-    message: "{NAME} in {NAMESPACE} terminated with nonzero exit code"
+    message:
+      template: "{NAME} in {NAMESPACE} terminated with nonzero exit code"
+      attributes:
+        NAME: metadata.name
+        NAMESPACE: metadata.namespace
+
 #  - kind: Pod
 #    triggers:
 #      - RESTART_COUNT_BIGGER_THAN_10

@@ -1,3 +1,5 @@
+from pprint import pprint
+
 import kubernetes as k8s
 import ruamel.yaml as yaml
 from kubernetes import kube_config
@@ -29,18 +31,13 @@ def cli():
         print(f"Inspecting: {name} in {namespace}")
         for pod_filter in pod_filters:
             if trigger(pod_filter, raw_object):
-                retrievals = extract_message_values(pod_filter['retrieves'], raw_object)
-                message = pod_filter['message'].format(**retrievals)
+                attributes = extract_message_attributes(pod_filter['message']['attributes'], raw_object)
+                message = pod_filter['message']['template'].format(**attributes)
                 print(message)
 
 
-def extract_message_values(retrieves, raw_object):
-    retrievals = {}
-    for identifier in retrieves:
-        retrieval_path = retrieves[identifier]
-        path_value = yaml_path_extract_value(raw_object, retrieval_path)
-        retrievals[identifier] = path_value
-    return retrievals
+def extract_message_attributes(attributes, raw_object):
+    return {attribute: yaml_path_extract_value(raw_object, path) for attribute, path in attributes.items()}
 
 
 def trigger(filter, raw_object):
