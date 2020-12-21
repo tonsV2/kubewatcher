@@ -1,25 +1,40 @@
 import kubernetes as k8s
-from kubernetes import config
+import ruamel.yaml as yaml
+from kubernetes import kube_config
+
+
+def read_config():
+    yaml_file = "config.yaml"
+    with open(yaml_file) as stream:
+        try:
+            yaml_data = yaml.safe_load(stream)
+            return yaml_data
+        except yaml.YAMLError as exc:
+            print(exc)
 
 
 def cli():
-    config.load_kube_config()
+    config = read_config()
+    pod_filters = [filter for filter in config['filters'] if filter['kind'] == 'Pod']
 
+    kube_config.load_kube_config()
     core_api = k8s.client.CoreV1Api()
     watcher = k8s.watch.Watch()
     stream = watcher.stream(core_api.list_pod_for_all_namespaces, timeout_seconds=0)
     for raw_event in stream:
-#        yaml_path = "status.phase == Failed"
-        yaml_path = "status.containerStatuses[*].state.terminated.exitCode != 0"
-#        yaml_path = "status.containerStatuses[0].state.terminated.exitCode != 0"
-        print("===========================================================================================")
-        metadata = raw_event['raw_object']['metadata']
-# TODO: If debug
-        print(f"Inspecting {metadata['name']} in {metadata['namespace']}")
-        if alert(raw_event['raw_object'], yaml_path):
-            # TODO: Extract some data/time information as well
-            print("ALARM!!!")
-            print(f"{metadata['name']} in {metadata['namespace']} terminated with nonzero exit code")
+        for filter in pod_filters:
+            should_trigger = False
+            raw_object = raw_event['raw_object']
+            for trigger in filter['triggers']:
+                should_trigger = alert(raw_object, trigger)
+            if should_trigger:
+                retrievals = {}
+                for identifier in filter['retrieves']:
+                    retrieval_path = filter['retrieves'][identifier]
+                    path_value = yaml_path_extract_value(raw_object, retrieval_path)
+                    retrievals[identifier] = path_value
+                print(filter['message'])
+                print(retrievals)
 
 
 def alert(yaml, yaml_path_str: str) -> bool:
@@ -39,6 +54,13 @@ def yaml_path(data, path):
     result = []
     yaml_rec(data, split_path, result)
     return result
+
+
+def yaml_path_extract_value(data, path):
+    split_path = path.split(".")
+    result = []
+    yaml_rec(data, split_path, result)
+    return result[0]
 
 
 def yaml_rec(data, split_path, result):

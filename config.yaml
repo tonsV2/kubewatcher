@@ -1,0 +1,39 @@
+filters:
+  - kind: Pod
+    apiVersion: v1
+    namespaces:
+      include:
+        - snot
+        - snog
+      ignore:
+        - sniger
+    triggers:
+#      - NONZERO_EXIT_CODE
+      - status.containerStatuses[*].state.terminated.exitCode != 0
+    retrieves:
+      NAME: metadata.name
+      NAMESPACE: metadata.namespace
+    message: "$NAME in $NAMESPACE terminated with nonzero exit code"
+#  - kind: Pod
+#    triggers:
+#      - RESTART_COUNT_BIGGER_THAN_10
+#    retrieves:
+#      NAME: meta.name
+#      NAMESPACE: meta.namespace
+#      RESTART_COUNT: status.container_statuses[*].state.restartCount
+#    message: "$NAME in $NAMESPACE has now restarted $RESTART_COUNT times"
+#  - kind: Job
+#    customCondition: status.container_statuses[*].state.terminated.exit_code != 0
+#    ???customCondition:
+#      all:
+#      either:
+
+handlers:
+  slack:
+    channel: '#nuc'
+    token: shalalala
+  smtp:
+    host: shalalala
+  webhook:
+    other:
+      handler: shalalalala
