@@ -41,6 +41,8 @@ def extract_message_values(retrieves, raw_object):
 
 
 def trigger(filter, raw_object):
+    if 'apiVersion' in filter and filter['apiVersion'] != raw_object['apiVersion']:
+        return False
     should_trigger = False
     for t in filter['triggers']:
         should_trigger = alert(raw_object, t)
