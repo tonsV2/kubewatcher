@@ -48,14 +48,14 @@ def alert(yaml, yaml_path_str: str) -> bool:
         return len(values) > 0 and not value.strip() in values
 
 
-def yaml_path(data, path):
+def yaml_path(data, path) -> []:
     split_path = path.split(".")
     result = []
     yaml_rec(data, split_path, result)
     return result
 
 
-def yaml_path_extract_value(data, path):
+def yaml_path_extract_value(data, path) -> str:
     split_path = path.split(".")
     result = []
     yaml_rec(data, split_path, result)
