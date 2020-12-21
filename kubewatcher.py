@@ -33,8 +33,7 @@ def cli():
                     retrieval_path = filter['retrieves'][identifier]
                     path_value = yaml_path_extract_value(raw_object, retrieval_path)
                     retrievals[identifier] = path_value
-                print(filter['message'])
-                print(retrievals)
+                print(filter['message'].format(**retrievals))
 
 
 def alert(yaml, yaml_path_str: str) -> bool:

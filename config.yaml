@@ -13,7 +13,7 @@ filters:
     retrieves:
       NAME: metadata.name
       NAMESPACE: metadata.namespace
-    message: "$NAME in $NAMESPACE terminated with nonzero exit code"
+    message: "{NAME} in {NAMESPACE} terminated with nonzero exit code"
 #  - kind: Pod
 #    triggers:
 #      - RESTART_COUNT_BIGGER_THAN_10
