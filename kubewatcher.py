@@ -18,22 +18,33 @@ def cli():
     pod_filters = [filter for filter in config['filters'] if filter['kind'] == 'Pod']
 
     kube_config.load_kube_config()
+
     core_api = k8s.client.CoreV1Api()
     watcher = k8s.watch.Watch()
     stream = watcher.stream(core_api.list_pod_for_all_namespaces, timeout_seconds=0)
     for raw_event in stream:
-        for filter in pod_filters:
-            should_trigger = False
-            raw_object = raw_event['raw_object']
-            for trigger in filter['triggers']:
-                should_trigger = alert(raw_object, trigger)
-            if should_trigger:
-                retrievals = {}
-                for identifier in filter['retrieves']:
-                    retrieval_path = filter['retrieves'][identifier]
-                    path_value = yaml_path_extract_value(raw_object, retrieval_path)
-                    retrievals[identifier] = path_value
-                print(filter['message'].format(**retrievals))
+        raw_object = raw_event['raw_object']
+        for pod_filter in pod_filters:
+            if trigger(pod_filter, raw_object):
+                retrievals = extract_message_values(pod_filter['retrieves'], raw_object)
+                message = pod_filter['message'].format(**retrievals)
+                print(message)
+
+
+def extract_message_values(retrieves, raw_object):
+    retrievals = {}
+    for identifier in retrieves:
+        retrieval_path = retrieves[identifier]
+        path_value = yaml_path_extract_value(raw_object, retrieval_path)
+        retrievals[identifier] = path_value
+    return retrievals
+
+
+def trigger(filter, raw_object):
+    should_trigger = False
+    for t in filter['triggers']:
+        should_trigger = alert(raw_object, t)
+    return should_trigger
 
 
 def alert(yaml, yaml_path_str: str) -> bool:
