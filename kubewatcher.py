@@ -46,6 +46,12 @@ def extract_message_values(retrieves, raw_object):
 def trigger(filter, raw_object):
     if 'apiVersion' in filter and filter['apiVersion'] != raw_object['apiVersion']:
         return False
+
+    namespace = raw_object['metadata']['namespace']
+    if 'namespaces' in filter and ('ignore' in filter['namespaces'] and namespace in filter['namespaces']['ignore']
+            or 'include' in filter['namespaces'] and namespace not in filter['namespaces']['include']):
+        return False
+
     should_trigger = False
     for t in filter['triggers']:
         should_trigger = alert(raw_object, t)

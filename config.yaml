@@ -3,10 +3,11 @@ filters:
     apiVersion: v1
     namespaces:
       include:
+        - surf-screenshotter-dev
         - snot
         - snog
       ignore:
-        - sniger
+        - heptio-sonobuoy
     triggers:
 #      - NONZERO_EXIT_CODE
       - status.containerStatuses[*].state.terminated.exitCode != 0
