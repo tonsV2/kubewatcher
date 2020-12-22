@@ -22,7 +22,7 @@ def cli():
         for pod_filter in pod_filters:
             if trigger(pod_filter, raw_object):
                 message = generate_message(pod_filter['message'], raw_object)
-                print(message)
+                print(f"❌ {message}")
                 handle(message, raw_object)
 
 

@@ -24,7 +24,7 @@ def handle(message, raw_object):
         if config['handlers']['slack']:
             response = post_message_to_slack(message)
             if response['ok']:
-                print(f"Slack message sent to {config['handlers']['slack']['channel']}")
+                print(f"Slack {config['handlers']['slack']['channel']}: {message}")
             else:
                 print(f"Slack error: {yaml.safe_dump(response)}")
 
