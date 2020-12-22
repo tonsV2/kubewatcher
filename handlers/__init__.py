@@ -3,7 +3,6 @@ import json
 import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
-from pprint import pprint
 
 import requests
 from ruamel import yaml
@@ -24,7 +23,7 @@ def handle(message, raw_object):
     if config['handlers']['slack']:
         response = post_message_to_slack(message)
         if not response['ok']:
-            pprint(response)
+            print(f"Slack error: {yaml.safe_dump(response)}")
 
     if config['handlers']['smtp']:
         send_mail(message, raw_object)
