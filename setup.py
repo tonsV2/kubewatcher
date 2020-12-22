@@ -17,7 +17,7 @@ setup(
     install_requires=[
         'kubernetes==12.0.1',
         'ruamel.yaml==0.16.12',
-        'yamlpath==3.4.0'
+        'envyaml==1.1.201202'
     ],
     entry_points='''
         [console_scripts]

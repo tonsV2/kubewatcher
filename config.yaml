@@ -29,17 +29,15 @@ filters:
 #        NAMESPACE: metadata.namespace
 #        RESTART_COUNT: status.containerStatuses[*].state.restartCount
 
-#handlers:
-#  slack:
-#    channel: #nuc
-#    token: xoxb-...
-#  smtp:
-#    from: from@gmail.com
-#    password: password
-#    host: smtp.gmail.com
-#    port: 587
-#    tls: true
-#    to: [ 'to@gmail.com' ]
-#  webhook:
-#    other:
-#      handler: shalalalala
+handlers:
+  slack:
+    channel: "${SLACK_HANDLER_CHANNEL}"
+    token: $SLACK_HANDLER_TOKEN
+  smtp:
+    from: $SMTP_HANDLER_FROM
+    password: $SMTP_HANDLER_PASSWORD
+    host: smtp.gmail.com
+    port: 587
+    tls: true
+    to:
+      - $SMTP_HANDLER_TO
