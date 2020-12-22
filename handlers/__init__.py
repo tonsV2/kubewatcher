@@ -20,15 +20,18 @@ def fire_and_forget(f):
 
 @fire_and_forget
 def handle(message, raw_object):
-    if config['handlers']['slack']:
-        response = post_message_to_slack(message)
-        if response['ok']:
-            print(f"Slack message sent to {config['handlers']['slack']['channel']}")
-        else:
-            print(f"Slack error: {yaml.safe_dump(response)}")
+    if 'handlers' in config:
+        if config['handlers']['slack']:
+            response = post_message_to_slack(message)
+            if response['ok']:
+                print(f"Slack message sent to {config['handlers']['slack']['channel']}")
+            else:
+                print(f"Slack error: {yaml.safe_dump(response)}")
 
-    if config['handlers']['smtp']:
-        send_mail(message, raw_object)
+        if config['handlers']['smtp']:
+            send_mail(message, raw_object)
+    else:
+        print("WARNING: No handlers configured!")
 
 
 # Inspiration: https://www.tutorialspoint.com/send-mail-from-your-gmail-account-using-python
