@@ -1,8 +1,5 @@
-from pprint import pprint
-
 import kubernetes as k8s
-import ruamel.yaml as yaml
-from kubernetes import kube_config
+from kubernetes.config import kube_config
 
 from config import config
 from handlers import handle
