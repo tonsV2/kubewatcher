@@ -26,6 +26,7 @@ def cli():
                 attributes = extract_message_attributes(pod_filter['message']['attributes'], raw_object)
                 message = pod_filter['message']['template'].format(**attributes)
                 print(message)
+                handle(message, raw_object)
 
 
 def extract_message_attributes(attributes, raw_object):

@@ -34,7 +34,7 @@ filters:
 handlers:
   slack:
     channel: '#nuc'
-    token: shalalala
+    token: xoxb-...
   smtp:
     host: shalalala
   webhook:
