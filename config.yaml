@@ -36,7 +36,12 @@ handlers:
     channel: '#nuc'
     token: xoxb-...
   smtp:
-    host: shalalala
+    from: from@gmail.com
+    password: password
+    host: smtp.gmail.com
+    port: 587
+    tls: true
+    to: to@gmail.com
   webhook:
     other:
       handler: shalalalala
