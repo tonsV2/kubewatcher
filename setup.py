@@ -13,6 +13,7 @@ setup(
     description='See https://github.com/tonsV2/kubewatcher',
     python_requires='>=3.8',
     py_modules=['kubewatcher'],
+    packages=['config', 'handlers'],
     install_requires=[
         'kubernetes==12.0.1',
         'ruamel.yaml==0.16.12',
