@@ -41,7 +41,7 @@ handlers:
     host: smtp.gmail.com
     port: 587
     tls: true
-    to: to@gmail.com
+    to: [ 'to@gmail.com' ]
   webhook:
     other:
       handler: shalalalala

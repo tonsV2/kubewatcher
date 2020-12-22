@@ -23,24 +23,27 @@ def handle(message, raw_object):
 # Inspiration: https://www.tutorialspoint.com/send-mail-from-your-gmail-account-using-python
 def send_mail(message, raw_object):
     smtp_config = config['handlers']['smtp']
-    mail_message = MIMEMultipart()
-    mail_message['From'] = smtp_config['from']
-    mail_message['To'] = smtp_config['to']
-    mail_message['Subject'] = message
-
-    body = yaml.safe_dump(raw_object)
-
-    mail_message.attach(MIMEText(body, 'plain'))
 
     session = smtplib.SMTP(smtp_config['host'], smtp_config['port'])
     if smtp_config['tls']:
         session.starttls()
     session.login(smtp_config['from'], smtp_config['password'])
-    text = mail_message.as_string()
-    try:
-        session.sendmail(smtp_config['from'], smtp_config['to'], text)
-    except smtplib.SMTPAuthenticationError as exc:
-        print(exc)
+
+    for to in smtp_config['to']:
+        mail = MIMEMultipart()
+        mail['From'] = smtp_config['from']
+        mail['To'] = to
+        mail['Subject'] = message
+
+        body = yaml.safe_dump(raw_object)
+
+        mail.attach(MIMEText(body, 'plain'))
+
+        text = mail.as_string()
+        try:
+            session.sendmail(smtp_config['from'], to, text)
+        except smtplib.SMTPAuthenticationError as exc:
+            print(exc)
     session.quit()
 
 
