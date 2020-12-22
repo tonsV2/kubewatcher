@@ -13,9 +13,6 @@ filters:
       attributes:
         NAME: metadata.name
         NAMESPACE: metadata.namespace
-# TODO: Being able to specify which handler should be invoked makes sense if one team manages one namespace and another manages another
-#    handlers:
-#      - slack
 
   - kind: Pod
     apiVersion: v1
