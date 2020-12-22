@@ -22,7 +22,9 @@ def fire_and_forget(f):
 def handle(message, raw_object):
     if config['handlers']['slack']:
         response = post_message_to_slack(message)
-        if not response['ok']:
+        if response['ok']:
+            print(f"Slack message sent to {config['handlers']['slack']['channel']}")
+        else:
             print(f"Slack error: {yaml.safe_dump(response)}")
 
     if config['handlers']['smtp']:
