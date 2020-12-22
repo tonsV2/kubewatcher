@@ -1,3 +1,4 @@
+import asyncio
 import json
 import smtplib
 from email.mime.multipart import MIMEMultipart
@@ -10,6 +11,15 @@ from ruamel import yaml
 from config import config
 
 
+# Inspiration: https://stackoverflow.com/a/53255955/672009
+def fire_and_forget(f):
+    def wrapped(*args, **kwargs):
+        return asyncio.get_event_loop().run_in_executor(None, f, *args, *kwargs)
+
+    return wrapped
+
+
+@fire_and_forget
 def handle(message, raw_object):
     if config['handlers']['slack']:
         response = post_message_to_slack(message)
