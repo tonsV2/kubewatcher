@@ -1,35 +1,33 @@
 filters:
   - kind: Pod
     apiVersion: v1
-    namespaces:
-      include:
-        - surf-screenshotter-dev
-        - snot
-        - snog
-      ignore:
-        - heptio-sonobuoy
+#    namespaces:
+#      include:
+#        - surf-screenshotter-dev
+#      ignore:
+#        - heptio-sonobuoy
     trigger:
-#      - NONZERO_EXIT_CODE
       - status.containerStatuses[*].state.terminated.exitCode != 0
     message:
       template: "{NAME} in {NAMESPACE} terminated with nonzero exit code"
       attributes:
         NAME: metadata.name
         NAMESPACE: metadata.namespace
+# TODO: Being able to specify which handler should be invoked makes sense if one team manages one namespace and another manages another
+#    handlers:
+#      - slack
 
+# TODO: Grater than and less than triggers aren't implemented yet so this doesn't work
 #  - kind: Pod
-#    triggers:
-#      - RESTART_COUNT_BIGGER_THAN_10
-#    retrieves:
-#      NAME: meta.name
-#      NAMESPACE: meta.namespace
-#      RESTART_COUNT: status.container_statuses[*].state.restartCount
-#    message: "$NAME in $NAMESPACE has now restarted $RESTART_COUNT times"
-#  - kind: Job
-#    customCondition: status.container_statuses[*].state.terminated.exit_code != 0
-#    ???customCondition:
-#      all:
-#      either:
+#    apiVersion: v1
+#    trigger:
+#      - status.containerStatuses[*].state.restartCount > 10
+#    message:
+#      template: "{NAME} in {NAMESPACE} has restarted {RESTART_COUNT}"
+#      attributes:
+#        NAME: metadata.name
+#        NAMESPACE: metadata.namespace
+#        RESTART_COUNT: status.containerStatuses[*].state.restartCount
 
 #handlers:
 #  slack:
