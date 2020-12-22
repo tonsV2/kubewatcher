@@ -4,19 +4,11 @@ import kubernetes as k8s
 import ruamel.yaml as yaml
 from kubernetes import kube_config
 
-
-def read_config():
-    yaml_file = "config.yaml"
-    with open(yaml_file) as stream:
-        try:
-            yaml_data = yaml.safe_load(stream)
-            return yaml_data
-        except yaml.YAMLError as exc:
-            print(exc)
+from config import config
+from handlers import handle
 
 
 def cli():
-    config = read_config()
     pod_filters = [filter for filter in config['filters'] if filter['kind'] == 'Pod']
 
     kube_config.load_kube_config()
