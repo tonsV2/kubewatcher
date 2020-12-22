@@ -8,6 +8,10 @@ Currently, only kinds of type Pod is supported but in the near future I plan on 
 # Configuration
 Please see [config.yaml](config.yaml) for an example configuration
 
+## Handlers
+ - Uncomment the relevant handlers in [config.yaml](config.yaml)
+ - Create an .env file. Possible use [.env.example](.env.example) as a starting point
+
 # Launch
 
 ## Docker
@@ -24,3 +28,12 @@ virtualenv venv
 source venv/bin/activate
 pip install --editable .
 ```
+
+# Change log
+## Version 1.1.0
+- Path comparison using < and > operators
+
+## Version 1.0.0
+ - Templated messages
+ - Path comparison using == and != operators
+ - Slack and SMTP handlers
