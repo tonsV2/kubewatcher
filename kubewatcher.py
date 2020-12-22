@@ -21,14 +21,15 @@ def cli():
         print(f"Inspecting: {name} in {namespace}")
         for pod_filter in pod_filters:
             if trigger(pod_filter, raw_object):
-                attributes = extract_message_attributes(pod_filter['message']['attributes'], raw_object)
-                message = pod_filter['message']['template'].format(**attributes)
+                message = generate_message(pod_filter['message'], raw_object)
                 print(message)
                 handle(message, raw_object)
 
 
-def extract_message_attributes(attributes, raw_object):
-    return {attribute: extract_value(raw_object, path) for attribute, path in attributes.items()}
+def generate_message(message_data, raw_object):
+    attributes = {attribute: extract_value(raw_object, path) for attribute, path in message_data['attributes'].items()}
+    message = message_data['template'].format(**attributes)
+    return message
 
 
 def trigger(pod_filter, raw_object):
