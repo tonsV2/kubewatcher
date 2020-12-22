@@ -57,7 +57,7 @@ def alert(yaml, yaml_path_str: str) -> bool:
         values = extract_values(yaml, path)
         return len(values) > 0 and value.strip() in values
 
-    if yaml_path_str.find("!="):
+    if yaml_path_str.find("!=") != -1:
         path, value = yaml_path_str.split("!=")
         values = extract_values(yaml, path)
         return len(values) > 0 and not value.strip() in values
