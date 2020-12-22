@@ -17,17 +17,16 @@ filters:
 #    handlers:
 #      - slack
 
-# TODO: Grater than and less than triggers aren't implemented yet so this doesn't work
-#  - kind: Pod
-#    apiVersion: v1
-#    trigger:
-#      - status.containerStatuses[*].state.restartCount > 10
-#    message:
-#      template: "{NAME} in {NAMESPACE} has restarted {RESTART_COUNT}"
-#      attributes:
-#        NAME: metadata.name
-#        NAMESPACE: metadata.namespace
-#        RESTART_COUNT: status.containerStatuses[*].state.restartCount
+  - kind: Pod
+    apiVersion: v1
+    trigger:
+      - status.containerStatuses[*].restartCount > 10
+    message:
+      template: "{NAME} in {NAMESPACE} has restarted {RESTART_COUNT} times"
+      attributes:
+        NAME: metadata.name
+        NAMESPACE: metadata.namespace
+        RESTART_COUNT: status.containerStatuses[*].restartCount
 
 handlers:
   slack:
