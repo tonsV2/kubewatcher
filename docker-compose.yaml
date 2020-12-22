@@ -1,0 +1,10 @@
+version: '3.6'
+services:
+  app:
+    build: .
+    volumes:
+      - ~/.kube/config:/kube/config
+      - ./config.yaml:/app/config.yaml
+    environment:
+      KUBECONFIG: /kube/config
+    tty: true
