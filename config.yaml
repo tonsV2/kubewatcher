@@ -31,17 +31,17 @@ filters:
 #      all:
 #      either:
 
-handlers:
-  slack:
-    channel: #nuc
-    token: xoxb-...
-  smtp:
-    from: from@gmail.com
-    password: password
-    host: smtp.gmail.com
-    port: 587
-    tls: true
-    to: [ 'to@gmail.com' ]
-  webhook:
-    other:
-      handler: shalalalala
+#handlers:
+#  slack:
+#    channel: #nuc
+#    token: xoxb-...
+#  smtp:
+#    from: from@gmail.com
+#    password: password
+#    host: smtp.gmail.com
+#    port: 587
+#    tls: true
+#    to: [ 'to@gmail.com' ]
+#  webhook:
+#    other:
+#      handler: shalalalala
