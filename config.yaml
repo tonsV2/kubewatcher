@@ -33,7 +33,7 @@ filters:
 
 handlers:
   slack:
-    channel: '#nuc'
+    channel: #nuc
     token: xoxb-...
   smtp:
     from: from@gmail.com
