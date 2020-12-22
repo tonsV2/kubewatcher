@@ -30,17 +30,21 @@ def extract_message_attributes(attributes, raw_object):
     return {attribute: yaml_path_extract_value(raw_object, path) for attribute, path in attributes.items()}
 
 
-def trigger(filter, raw_object):
-    if 'apiVersion' in filter and filter['apiVersion'] != raw_object['apiVersion']:
+def trigger(pod_filter, raw_object):
+    api_version_does_not_match = 'apiVersion' in pod_filter and pod_filter['apiVersion'] != raw_object['apiVersion']
+    if api_version_does_not_match:
         return False
 
     namespace = raw_object['metadata']['namespace']
-    if 'namespaces' in filter and ('ignore' in filter['namespaces'] and namespace in filter['namespaces']['ignore']
-            or 'include' in filter['namespaces'] and namespace not in filter['namespaces']['include']):
-        return False
+    if 'namespaces' in pod_filter:
+        namespaces = pod_filter['namespaces']
+        namespace_ignored = 'ignore' in namespaces and namespace in namespaces['ignore']
+        namespace_not_included = 'include' in namespaces and namespace not in namespaces['include']
+        if namespace_ignored or namespace_not_included:
+            return False
 
     should_trigger = False
-    for t in filter['triggers']:
+    for t in pod_filter['triggers']:
         should_trigger = alert(raw_object, t)
     return should_trigger
 
