@@ -8,7 +8,7 @@ filters:
         - snog
       ignore:
         - heptio-sonobuoy
-    triggers:
+    trigger:
 #      - NONZERO_EXIT_CODE
       - status.containerStatuses[*].state.terminated.exitCode != 0
     message:

@@ -44,7 +44,7 @@ def trigger(pod_filter, raw_object):
             return False
 
     should_trigger = False
-    for t in pod_filter['triggers']:
+    for t in pod_filter['trigger']:
         should_trigger = alert(raw_object, t)
     return should_trigger
 
