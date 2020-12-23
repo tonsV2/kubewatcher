@@ -23,6 +23,7 @@ def cli():
     }
 
     kinds = {filter['kind'] for filter in config['filters']}
+    print(f"Kinds observed: {kinds}")
     resources = {kind: resource_map[kind] for kind in kinds}
 
     launcher = ThreadLauncher()
