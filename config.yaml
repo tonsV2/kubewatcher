@@ -9,7 +9,7 @@ filters:
     conditions:
       - status.containerStatuses[*].state.terminated.exitCode != 0
     message:
-      template: "{NAME} in {NAMESPACE} terminated with nonzero exit code"
+      template: "Pod: {NAME} in {NAMESPACE} terminated with nonzero exit code"
       attributes:
         NAME: metadata.name
         NAMESPACE: metadata.namespace
@@ -19,7 +19,7 @@ filters:
     conditions:
       - status.containerStatuses[*].restartCount > 10
     message:
-      template: "{NAME} in {NAMESPACE} has restarted {RESTART_COUNT} times"
+      template: "Pod: {NAME} in {NAMESPACE} has restarted {RESTART_COUNT} times"
       attributes:
         NAME: metadata.name
         NAMESPACE: metadata.namespace
