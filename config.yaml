@@ -39,6 +39,18 @@ filters:
         REASON: reason
         MESSAGE: message
 
+  - kind: Job
+    apiVersion: batch/v1
+    conditions:
+      - status.conditions[*].type == Failed
+    message:
+      template: "Job: {NAME} in {NAMESPACE} failed (reason: {REASON}, message: {MESSAGE})"
+      attributes:
+        NAME: metadata.name
+        NAMESPACE: metadata.namespace
+        REASON: status.conditions[*].reason
+        MESSAGE: status.conditions[*].message
+
 #handlers:
 #  slack:
 #    channel: "${SLACK_HANDLER_CHANNEL}"
