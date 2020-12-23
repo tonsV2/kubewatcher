@@ -12,11 +12,23 @@ def cli():
     kube_config.load_kube_config()
 
     core_api = k8s.client.CoreV1Api()
+    batch_v1_api = k8s.client.BatchV1Api()
+    batch_v1_beta_api = k8s.client.BatchV1beta1Api()
+
+    resource_map = {
+        "Event": core_api.list_event_for_all_namespaces,
+        "Pod": core_api.list_pod_for_all_namespaces,
+        "Service": core_api.list_service_for_all_namespaces,
+        "Job": batch_v1_api.list_job_for_all_namespaces,
+        "CronJob": batch_v1_beta_api.list_cron_job_for_all_namespaces
+    }
+
+    kinds = {filter['kind'] for filter in config['filters']}
+    resources = {kind: resource_map[kind] for kind in kinds}
 
     launcher = ThreadLauncher()
-    launcher.launch("Event", core_api.list_event_for_all_namespaces)
-    launcher.launch("Pod", core_api.list_pod_for_all_namespaces)
-    launcher.launch("Service", core_api.list_service_for_all_namespaces)
+    for kind, resource in resources.items():
+        launcher.launch(kind, resource)
     launcher.join()
 
 
