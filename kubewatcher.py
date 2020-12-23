@@ -66,10 +66,8 @@ def trigger(pod_filter, raw_object):
         if namespace_ignored or namespace_not_included:
             return False
 
-    should_trigger = False
-    for t in pod_filter['trigger']:
-        should_trigger = evaluate_path(raw_object, t)
-    return should_trigger
+    conditions = [evaluate_path(raw_object, t) for t in pod_filter['conditions']]
+    return all(conditions)
 
 
 if __name__ == "__main__":
