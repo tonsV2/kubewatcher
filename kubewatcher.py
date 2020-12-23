@@ -28,16 +28,16 @@ def cli():
 
     launcher = ThreadLauncher()
     for kind, resource in resources.items():
-        launcher.launch(kind, resource)
+        filters = [filter for filter in config['filters'] if filter['kind'] == kind]
+        launcher.launch(resource_watcher, [resource, filters, kind])
     launcher.join()
 
 
 class ThreadLauncher(object):
     _threads = []
 
-    def launch(self, kind, resource):
-        filters = [filter for filter in config['filters'] if filter['kind'] == kind]
-        thread = threading.Thread(target=resource_watcher, args=[resource, filters, kind])
+    def launch(self, target, args):
+        thread = threading.Thread(target=target, args=args)
         self._threads.append(thread)
         thread.start()
 
