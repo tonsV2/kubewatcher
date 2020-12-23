@@ -3,7 +3,7 @@ from kubernetes.config import kube_config
 
 from config import config
 from handlers import handle
-from path_extractor import extract_value, extract_values
+from path_extractor import extract_value, evaluate_path
 from thread_launcher import ThreadLauncher
 
 
@@ -70,41 +70,6 @@ def trigger(pod_filter, raw_object):
     for t in pod_filter['trigger']:
         should_trigger = evaluate_path(raw_object, t)
     return should_trigger
-
-
-# TODO: This function is a bit of a mess.
-# == and != is evaluated using string comparison
-# < and > is evaluated using ints
-def evaluate_path(yaml, yaml_path_str: str) -> bool:
-    if yaml_path_str.find("==") != -1:
-        path, value = yaml_path_str.split("==")
-        values = extract_values(yaml, path)
-        return len(values) > 0 and value.strip() in values
-
-    if yaml_path_str.find("!=") != -1:
-        path, value = yaml_path_str.split("!=")
-        values = extract_values(yaml, path)
-        return len(values) > 0 and value.strip() not in values
-
-    if yaml_path_str.find("<") != -1:
-        path, value = yaml_path_str.split("<")
-        values = extract_values(yaml, path)
-        cmp = False
-        if len(values) > 0:
-            for v in values:
-                if int(v) < int(value.strip()):
-                    cmp = True
-        return cmp
-
-    if yaml_path_str.find(">") != -1:
-        path, value = yaml_path_str.split(">")
-        values = extract_values(yaml, path)
-        cmp = False
-        if len(values) > 0:
-            for v in values:
-                if int(v) > int(value.strip()):
-                    cmp = True
-        return cmp
 
 
 if __name__ == "__main__":

@@ -1,3 +1,55 @@
+from enum import Enum
+
+
+class Operator(Enum):
+    EQUAL = "=="
+    NOT_EQUAL = "!="
+    LESS_THAN = "<"
+    GRATER_THAN = ">"
+
+
+def evaluate_path(obj, path_str: str) -> bool:
+    operator = __get_operator(path_str)
+    left, right = path_str.split(operator.value)
+    values = extract_values(obj, left)
+    cmp = False
+    for value in values:
+        cmp = __compare(value.strip(), operator, right.strip())
+        if cmp:
+            return True
+    return cmp
+
+
+def __compare(left: str, operator: Operator, right: str) -> bool:
+    if operator == Operator.EQUAL:
+        return left == right
+
+    if operator == Operator.NOT_EQUAL:
+        return left != right
+
+    if operator == Operator.LESS_THAN:
+        return int(left) < int(right)
+
+    if operator == Operator.GRATER_THAN:
+        return int(left) > int(right)
+
+
+def __get_operator(path_str):
+    operator = None
+    if path_str.find("==") != -1:
+        operator = Operator.EQUAL
+
+    if path_str.find("!=") != -1:
+        operator = Operator.NOT_EQUAL
+
+    if path_str.find("<") != -1:
+        operator = Operator.LESS_THAN
+
+    if path_str.find(">") != -1:
+        operator = Operator.GRATER_THAN
+    return operator
+
+
 def extract_values(data, path) -> []:
     split_path = path.split(".")
     result = []
