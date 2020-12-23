@@ -1,11 +1,10 @@
-import threading
-
 import kubernetes as k8s
 from kubernetes.config import kube_config
 
 from config import config
 from handlers import handle
 from path_extractor import extract_value, extract_values
+from thread_launcher import ThreadLauncher
 
 
 def cli():
@@ -31,19 +30,6 @@ def cli():
         filters = [filter for filter in config['filters'] if filter['kind'] == kind]
         launcher.launch(resource_watcher, [resource, filters, kind])
     launcher.join()
-
-
-class ThreadLauncher(object):
-    _threads = []
-
-    def launch(self, target, args):
-        thread = threading.Thread(target=target, args=args)
-        self._threads.append(thread)
-        thread.start()
-
-    def join(self):
-        for t in self._threads:
-            t.join()
 
 
 def resource_watcher(resource, pod_filters, kind):
