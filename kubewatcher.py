@@ -1,3 +1,5 @@
+import threading
+
 import kubernetes as k8s
 from kubernetes.config import kube_config
 
@@ -7,18 +9,39 @@ from path_extractor import extract_value, extract_values
 
 
 def cli():
-    pod_filters = [filter for filter in config['filters'] if filter['kind'] == 'Pod']
-
     kube_config.load_kube_config()
 
     core_api = k8s.client.CoreV1Api()
+
+    launcher = ThreadLauncher()
+    launcher.launch("Event", core_api.list_event_for_all_namespaces)
+    launcher.launch("Pod", core_api.list_pod_for_all_namespaces)
+    launcher.launch("Service", core_api.list_service_for_all_namespaces)
+    launcher.join()
+
+
+class ThreadLauncher(object):
+    _threads = []
+
+    def launch(self, kind, resource):
+        filters = [filter for filter in config['filters'] if filter['kind'] == kind]
+        thread = threading.Thread(target=resource_watcher, args=[resource, filters, kind])
+        self._threads.append(thread)
+        thread.start()
+
+    def join(self):
+        for t in self._threads:
+            t.join()
+
+
+def resource_watcher(resource, pod_filters, kind):
     watcher = k8s.watch.Watch()
-    stream = watcher.stream(core_api.list_pod_for_all_namespaces, timeout_seconds=0)
+    stream = watcher.stream(resource, timeout_seconds=0)
     for raw_event in stream:
         raw_object = raw_event['raw_object']
         name = extract_value(raw_object, "metadata.name")
         namespace = extract_value(raw_object, "metadata.namespace")
-        print(f"Inspecting: {name} in {namespace}")
+        print(f"{kind}: {name} in {namespace}")
         for pod_filter in pod_filters:
             if trigger(pod_filter, raw_object):
                 message = generate_message(pod_filter['message'], raw_object)
