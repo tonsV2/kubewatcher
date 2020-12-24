@@ -68,7 +68,7 @@ def trigger(pod_filter, raw_object):
         if namespace_ignored or namespace_not_included:
             return False
 
-    conditions = [evaluate_path(raw_object, t) for t in pod_filter['conditions']]
+    conditions = [evaluate_path(raw_object, condition) for condition in pod_filter['conditions']]
     return all(conditions)
 
 
