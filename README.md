@@ -29,6 +29,11 @@ source venv/bin/activate
 pip install --editable .
 ```
 
+# Run test suite
+```bash
+python -m unittest -v
+```
+
 # Changelog
 ## Version 1.2.0
 - Observe multiple resource, not just Pods
