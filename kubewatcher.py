@@ -18,6 +18,7 @@ def cli():
         "Event": core_api.list_event_for_all_namespaces,
         "Pod": core_api.list_pod_for_all_namespaces,
         "Service": core_api.list_service_for_all_namespaces,
+        "Node": core_api.list_node,
         "Job": batch_v1_api.list_job_for_all_namespaces,
         "CronJob": batch_v1_beta_api.list_cron_job_for_all_namespaces
     }
