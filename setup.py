@@ -15,9 +15,9 @@ setup(
     py_modules=['kubewatcher'],
     packages=['config', 'handlers', 'path_extractor', 'thread_launcher'],
     install_requires=[
-        'kubernetes==12.0.1',
-        'ruamel.yaml==0.16.12',
-        'envyaml==1.1.201202'
+        'kubernetes~=12.0.1',
+        'ruamel.yaml~=0.16.12',
+        'envyaml~=1.1.201202'
     ],
     entry_points='''
         [console_scripts]
