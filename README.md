@@ -29,9 +29,13 @@ source venv/bin/activate
 pip install --editable .
 ```
 
-# Change log
+# Changelog
+## Version 1.2.0
+- Observe multiple resource, not just Pods
+
 ## Version 1.1.0
 - Path comparison using < and > operators
+- Support configuration environment variables
 
 ## Version 1.0.0
  - Templated messages
