@@ -1,9 +1,7 @@
 # Kube Watcher
 Simple and highly configurable Kubernetes monitor
 
-The idea is that you can define a filter by defining a path, and a value, in the YAML of resource and if there's a match it will be handled by the handlers you define.
-
-Currently, only kinds of type Pod is supported but in the near future I plan on adding support for other resources as well (particularly Event).
+The idea is that you can define a filter and if there's a match it will be handled by the handlers you define.
 
 # Configuration
 Please see [config.yaml](config.yaml) for an example configuration
@@ -13,6 +11,7 @@ Please see [config.yaml](config.yaml) for an example configuration
  - Create an .env file. Possible use [.env.example](.env.example) as a starting point
 
 # Launch
+Your default context from `~/.kube/config` will be used.
 
 ## Docker
 ```bash
