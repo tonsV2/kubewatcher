@@ -19,9 +19,8 @@ setup(
         'ruamel.yaml~=0.16.12',
         'envyaml~=1.1.201202'
     ],
-    entry_points='''
-        [console_scripts]
-        kubewatcher=kubewatcher:cli
-    ''',
+    entry_points={
+        'console_scripts': ['kubewatcher=kubewatcher.kubewatcher:cli']
+    },
     long_description=read('README.md'),
 )

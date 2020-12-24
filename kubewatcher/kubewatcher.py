@@ -1,10 +1,10 @@
 import kubernetes as k8s
 from kubernetes.config import kube_config
 
-from config import config
-from handlers import handle
-from path_extractor import extract_value, evaluate_path
-from thread_launcher import ThreadLauncher
+from kubewatcher.config import config
+from kubewatcher.handlers import handle
+from kubewatcher.path_extractor import extract_value, evaluate_path
+from kubewatcher.thread_launcher import ThreadLauncher
 
 
 def cli():

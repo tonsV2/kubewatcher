@@ -7,7 +7,7 @@ from email.mime.text import MIMEText
 import requests
 from ruamel import yaml
 
-from config import config
+from kubewatcher.config import config
 
 
 # Inspiration: https://stackoverflow.com/a/53255955/672009
