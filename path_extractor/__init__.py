@@ -35,19 +35,10 @@ def __compare(left: str, operator: Operator, right: str) -> bool:
 
 
 def __get_operator(path_str):
-    operator = None
-    if path_str.find("==") != -1:
-        operator = Operator.EQUAL
-
-    if path_str.find("!=") != -1:
-        operator = Operator.NOT_EQUAL
-
-    if path_str.find("<") != -1:
-        operator = Operator.LESS_THAN
-
-    if path_str.find(">") != -1:
-        operator = Operator.GRATER_THAN
-    return operator
+    operators = ["==", "!=", "<", ">"]
+    for operator in operators:
+        if path_str.find(operator) != -1:
+            return Operator(operator)
 
 
 def extract_values(data, path) -> []:
