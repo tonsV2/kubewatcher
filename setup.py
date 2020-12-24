@@ -1,6 +1,6 @@
 import os
 
-from setuptools import setup
+from setuptools import setup, find_packages
 
 
 def read(filename):
@@ -12,8 +12,7 @@ setup(
     version='1.2.0',
     description='See https://github.com/tonsV2/kubewatcher',
     python_requires='>=3.8',
-    py_modules=['kubewatcher'],
-    packages=['config', 'handlers', 'path_extractor', 'thread_launcher'],
+    packages=find_packages(),
     install_requires=[
         'kubernetes~=12.0.1',
         'ruamel.yaml~=0.16.12',
