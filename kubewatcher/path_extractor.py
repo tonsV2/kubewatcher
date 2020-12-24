@@ -66,7 +66,7 @@ def yaml_rec(data, split_path, result):
     #         result.append(data[path_part_without_index])
     #     else:
     #         result.append(data[path_part_without_index][int(index)])
-    if len(split_path) == 0:
+    if not split_path:
         result.append(str(data[path_part]))
     else:
         if path_part.endswith("]"):
