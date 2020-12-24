@@ -56,20 +56,29 @@ def generate_message(message_data, raw_object):
 
 
 def trigger(pod_filter, raw_object):
-    api_version_does_not_match = 'apiVersion' in pod_filter and pod_filter['apiVersion'] != raw_object['apiVersion']
-    if api_version_does_not_match:
+    if api_version_does_not_match(pod_filter, raw_object):
         return False
 
     namespace = raw_object['metadata']['namespace']
     if 'namespaces' in pod_filter:
         namespaces = pod_filter['namespaces']
-        namespace_ignored = 'ignore' in namespaces and namespace in namespaces['ignore']
-        namespace_not_included = 'include' in namespaces and namespace not in namespaces['include']
-        if namespace_ignored or namespace_not_included:
+        if namespace_ignored(namespace, namespaces) or namespace_not_included(namespace, namespaces):
             return False
 
     conditions = [evaluate_path(raw_object, condition) for condition in pod_filter['conditions']]
     return all(conditions)
+
+
+def api_version_does_not_match(pod_filter, raw_object):
+    return 'apiVersion' in pod_filter and pod_filter['apiVersion'] != raw_object['apiVersion']
+
+
+def namespace_ignored(namespace, namespaces):
+    return 'ignore' in namespaces and namespace in namespaces['ignore']
+
+
+def namespace_not_included(namespace, namespaces):
+    return 'include' in namespaces and namespace not in namespaces['include']
 
 
 if __name__ == "__main__":
