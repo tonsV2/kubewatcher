@@ -3,6 +3,30 @@ Simple and highly configurable Kubernetes monitor
 
 The idea is that you can define a filter and if there's a match it will be handled by the handlers you define.
 
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+- [Kube Watcher](#kube-watcher)
+
+- [Configuration](#configuration)
+  - [Handlers](#handlers)
+- [Install](#install)
+- [Run](#run)
+  - [Natively](#natively)
+  - [Docker](#docker)
+  - [Helm](#helm)
+- [Development Setup](#development-setup)
+- [Run test suite](#run-test-suite)
+- [Release on PyPI](#release-on-pypi)
+- [Changelog](#changelog)
+  - [Version 1.4.0](#version-140)
+  - [Version 1.3.0](#version-130)
+  - [Version 1.2.0](#version-120)
+  - [Version 1.1.0](#version-110)
+  - [Version 1.0.0](#version-100)
+- [Credits](#credits)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # Configuration
 Please see [config.yaml](config.yaml) for an example configuration
 
