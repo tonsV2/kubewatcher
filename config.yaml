@@ -51,17 +51,21 @@ filters:
         REASON: status.conditions[*].reason
         MESSAGE: status.conditions[*].message
 
-#handlers:
-#  slack:
-#    channel: "${SLACK_HANDLER_CHANNEL}"
-#    token: $SLACK_HANDLER_TOKEN
-#    username: KubeWatcher-dev
-#    icon: https://github.com/tonsV2/kubewatcher/raw/master/icons/icon.png
-#  smtp:
-#    from: $SMTP_HANDLER_FROM
-#    password: $SMTP_HANDLER_PASSWORD
-#    host: smtp.gmail.com
-#    port: 587
-#    tls: true
-#    to:
-#      - $SMTP_HANDLER_TO
+handlers:
+  slack:
+    channel: "${SLACK_HANDLER_CHANNEL}"
+    token: $SLACK_HANDLER_TOKEN
+    username: KubeWatcher-dev
+    icon: https://github.com/tonsV2/kubewatcher/raw/master/icons/icon.png
+  smtp:
+    from: $SMTP_HANDLER_FROM
+    password: $SMTP_HANDLER_PASSWORD
+    host: smtp.gmail.com
+    port: 587
+    tls: true
+    to:
+      - $SMTP_HANDLER_TO
+
+settings:
+  dryRun: false
+  debug: false
