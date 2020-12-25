@@ -10,6 +10,11 @@ Please see [config.yaml](config.yaml) for an example configuration
  - Uncomment the relevant handlers in [config.yaml](config.yaml)
  - Create an .env file. Possible use [.env.example](.env.example) as a starting point
 
+# Install
+```bash
+pip install kubewatcher
+```
+
 # Launch
 Your default context from `~/.kube/config` will be used.
 
@@ -33,7 +38,16 @@ pip install --editable .
 python -m unittest -v
 ```
 
+# Release on PyPI
+```bash
+python setup.py sdist bdist_wheel
+python -m twine upload dist/*
+```
+
 # Changelog
+## Version 1.4.0
+- Release on PyPI
+
 ## Version 1.3.0
 - Slack bot icon
 - Initial unit testing

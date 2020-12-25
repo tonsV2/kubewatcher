@@ -16,7 +16,8 @@ setup(
     install_requires=[
         'kubernetes~=12.0.1',
         'ruamel.yaml~=0.16.12',
-        'envyaml~=1.1.201202'
+        'envyaml~=1.1.201202',
+        'twine~=3.3.0',
     ],
     entry_points={
         'console_scripts': ['kubewatcher=kubewatcher.kubewatcher:cli']

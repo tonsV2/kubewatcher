@@ -1,3 +1,4 @@
 .idea
 kubewatcher.egg-info
 .env
+dist
