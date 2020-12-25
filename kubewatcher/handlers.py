@@ -56,12 +56,14 @@ def send_mail(message, raw_object):
 
         mail.attach(MIMEText(body, 'plain'))
 
-        text = mail.as_string()
         try:
-            session.sendmail(smtp_config['from'], to, text)
-        except smtplib.SMTPAuthenticationError as exc:
+            session.sendmail(smtp_config['from'], to, mail.as_string())
+            print(f"SMTP {to}: {message}")
+        except smtplib.SMTPException as exc:
+            print("SMTPException:")
             print(exc)
-    session.quit()
+
+        session.quit()
 
 
 # Inspiration: https://keestalkstech.com/2019/10/simple-python-code-to-send-message-to-slack-channel-without-packages/
