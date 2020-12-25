@@ -34,6 +34,11 @@ python -m unittest -v
 ```
 
 # Changelog
+## Version 1.3.0
+- Slack bot icon
+- Initial unit testing
+- Restructure code
+
 ## Version 1.2.0
 - Observe multiple resource, not just Pods
 
