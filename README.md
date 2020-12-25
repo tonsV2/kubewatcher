@@ -46,19 +46,19 @@ python -m twine upload dist/*
 
 # Changelog
 ## Version 1.4.0
-- Release on PyPI
+ - Release on PyPI
 
 ## Version 1.3.0
-- Slack bot icon
-- Initial unit testing
-- Restructure code
+ - Slack bot icon
+ - Initial unit testing
+ - Restructure code
 
 ## Version 1.2.0
-- Observe multiple resource, not just Pods
+ - Observe multiple resource, not just Pods
 
 ## Version 1.1.0
-- Path comparison using < and > operators
-- Support configuration environment variables
+ - Path comparison using < and > operators
+ - Support configuration environment variables
 
 ## Version 1.0.0
  - Templated messages
