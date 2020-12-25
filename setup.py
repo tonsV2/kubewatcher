@@ -18,6 +18,7 @@ setup(
         'ruamel.yaml~=0.16.12',
         'envyaml~=1.1.201202',
         'twine~=3.3.0',
+        'click~=7.1.2',
     ],
     entry_points={
         'console_scripts': ['kubewatcher=kubewatcher.kubewatcher:cli']

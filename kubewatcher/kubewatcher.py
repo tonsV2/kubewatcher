@@ -1,13 +1,18 @@
+import click
 import kubernetes as k8s
+from envyaml import EnvYAML
 from kubernetes.config import kube_config
 
-from kubewatcher.config import config
 from kubewatcher.handlers import handle
 from kubewatcher.path_extractor import extract_value, evaluate_path
 from kubewatcher.thread_launcher import ThreadLauncher
 
 
-def cli():
+@click.command()
+@click.option('--config-file', '-f', "config_files", multiple=True, default=["config.yaml"])
+def cli(config_files):
+    config = read_configs(config_files)
+
     kube_config.load_kube_config()
 
     core_api = k8s.client.CoreV1Api()
@@ -30,11 +35,11 @@ def cli():
     launcher = ThreadLauncher()
     for kind, resource in resources.items():
         filters = [filter for filter in config['filters'] if filter['kind'] == kind]
-        launcher.launch(resource_watcher, [resource, filters, kind])
+        launcher.launch(resource_watcher, [config, resource, filters, kind])
     launcher.join()
 
 
-def resource_watcher(resource, pod_filters, kind):
+def resource_watcher(config, resource, pod_filters, kind):
     watcher = k8s.watch.Watch()
     stream = watcher.stream(resource, timeout_seconds=0)
     for raw_event in stream:
@@ -46,7 +51,7 @@ def resource_watcher(resource, pod_filters, kind):
             if trigger(pod_filter, raw_object):
                 message = generate_message(pod_filter['message'], raw_object)
                 print(f"❌ {message}")
-                handle(message, raw_object)
+                handle(config, message, raw_object)
 
 
 def generate_message(message_data, raw_object):
@@ -81,5 +86,22 @@ def namespace_not_included(namespace, namespaces):
     return 'include' in namespaces and namespace not in namespaces['include']
 
 
-if __name__ == "__main__":
-    cli()
+def read_configs(config_files: []) -> {}:
+    """
+    Each file in config_files will be read and added to the config object.
+    Filters will be appended but handlers will be merged since they are uniq by name.
+
+    :param config_files: []
+    :return: An object containing the combined configuration
+    """
+    config = {
+        "filters": [],
+        "handlers": {}
+    }
+
+    for config_file in config_files:
+        yaml = EnvYAML(config_file)
+        config["filters"] += yaml["filters"]
+        config["handlers"] = {**config["handlers"], **yaml["handlers"]}
+
+    return config

@@ -15,8 +15,14 @@ Please see [config.yaml](config.yaml) for an example configuration
 pip install kubewatcher
 ```
 
-# Launch
+# Run
 Your default context from `~/.kube/config` will be used.
+
+## Natively
+By default, `kubewatcher` will look for a config file (config.yaml) in the current directory. Different locations, and names, can be specified using the `-f` argument.
+```bash
+kubewatcher
+```
 
 ## Docker
 ```bash
