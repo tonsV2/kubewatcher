@@ -45,3 +45,8 @@ python -m unittest -v
  - Templated messages
  - Path comparison using == and != operators
  - Slack and SMTP handlers
+
+# Credits
+Thanks to Freepik for making the icon freely available
+
+https://www.flaticon.com/free-icon/businessman_1253770?term=binoculars&page=1&position=14
