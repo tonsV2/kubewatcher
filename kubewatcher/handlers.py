@@ -73,7 +73,7 @@ def post_message_to_slack(text, blocks=None):
         'token': slack['token'],
         'channel': slack['channel'],
         'text': text,
-        #        'icon_url': slack_icon_url,
+        'icon_url': slack['icon'],
         'username': slack['username'],
         'blocks': json.dumps(blocks) if blocks else None
     }).json()
