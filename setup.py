@@ -9,7 +9,7 @@ def read(filename):
 
 setup(
     name='kubewatcher',
-    version='1.3.0',
+    version='1.4.0',
     description='See https://github.com/tonsV2/kubewatcher',
     python_requires='>=3.8',
     packages=find_packages(),
