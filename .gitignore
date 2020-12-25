@@ -2,3 +2,4 @@
 kubewatcher.egg-info
 .env
 dist
+build
