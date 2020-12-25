@@ -1,4 +1,5 @@
 import asyncio
+import functools
 import json
 import smtplib
 from email.mime.multipart import MIMEMultipart
@@ -10,15 +11,17 @@ from ruamel import yaml
 from kubewatcher.config import config
 
 
-# Inspiration: https://stackoverflow.com/a/53255955/672009
-def fire_and_forget(f):
-    def wrapped(*args, **kwargs):
-        return asyncio.get_event_loop().run_in_executor(None, f, *args, *kwargs)
+# Inspiration: https://stackoverflow.com/questions/41063331/how-to-use-asyncio-with-existing-blocking-library
+def run_in_executor(f):
+    @functools.wraps(f)
+    def inner(*args, **kwargs):
+        loop = asyncio.new_event_loop()
+        return loop.run_in_executor(None, functools.partial(f, *args, **kwargs))
 
-    return wrapped
+    return inner
 
 
-@fire_and_forget
+@run_in_executor
 def handle(message, raw_object):
     if 'handlers' in config:
         if config['handlers']['slack']:
