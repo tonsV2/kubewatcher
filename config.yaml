@@ -55,6 +55,7 @@ filters:
 #  slack:
 #    channel: "${SLACK_HANDLER_CHANNEL}"
 #    token: $SLACK_HANDLER_TOKEN
+#    username: KubeWatcher-dev
 #  smtp:
 #    from: $SMTP_HANDLER_FROM
 #    password: $SMTP_HANDLER_PASSWORD
