@@ -67,7 +67,7 @@ def send_mail(config, message, raw_object):
 # Inspiration: https://keestalkstech.com/2019/10/simple-python-code-to-send-message-to-slack-channel-without-packages/
 def post_message_to_slack(config, text, blocks=None):
     default_icon = "https://github.com/tonsV2/kubewatcher/raw/master/icons/icon.png"
-    default_username = "KubeWatcher-dev"
+    default_username = "KubeWatcher"
 
     slack = config['handlers']['slack']
     return requests.post('https://slack.com/api/chat.postMessage', {
