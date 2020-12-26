@@ -106,7 +106,8 @@ def read_configs(config_files: []) -> {}:
     for config_file in config_files:
         yaml = EnvYAML(config_file)
         config["filters"] += yaml["filters"]
-        config["handlers"] = {**config["handlers"], **yaml["handlers"]}
+        if 'handlers' in yaml:
+            config["handlers"] = {**config["handlers"], **yaml["handlers"]}
 
     return config
 
