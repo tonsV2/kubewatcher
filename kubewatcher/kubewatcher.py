@@ -1,7 +1,9 @@
+import os
+
 import click
 import kubernetes as k8s
 from envyaml import EnvYAML
-from kubernetes.config import kube_config
+from kubernetes.config import kube_config, incluster_config
 
 from kubewatcher.handlers import handle
 from kubewatcher.path_extractor import extract_value, evaluate_path
@@ -13,7 +15,7 @@ from kubewatcher.thread_launcher import ThreadLauncher
 def cli(config_files):
     config = read_configs(config_files)
 
-    kube_config.load_kube_config()
+    read_kube_config()
 
     core_api = k8s.client.CoreV1Api()
     batch_v1_api = k8s.client.BatchV1Api()
@@ -107,3 +109,10 @@ def read_configs(config_files: []) -> {}:
         config["handlers"] = {**config["handlers"], **yaml["handlers"]}
 
     return config
+
+
+def read_kube_config():
+    if "KUBERNETES_SERVICE_HOST" in os.environ:
+        incluster_config.load_incluster_config()
+    else:
+        kube_config.load_kube_config()
