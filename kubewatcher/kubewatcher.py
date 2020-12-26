@@ -32,7 +32,11 @@ def cli(config_files):
 
     kinds = {filter['kind'] for filter in config['filters']}
     print(f"Kinds observed: {list(kinds)}")
-    print(f"Handlers: {list(config['handlers'].keys())}")
+    handlers = list(config['handlers'].keys())
+    if not handlers:
+        print("WARNING!!! No handlers defined!")
+    else:
+        print(f"Handlers: {handlers}")
 
     resources = {kind: resource_map[kind] for kind in kinds}
 
