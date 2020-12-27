@@ -30,13 +30,14 @@ def cli(config_files):
         "CronJob": batch_v1_beta_api.list_cron_job_for_all_namespaces
     }
 
-    kinds = {filter['kind'] for filter in config['filters']}
+    kinds = {f['kind'] for f in config['filters']}
     print(f"Kinds observed: {list(kinds)}")
+
     handlers = list(config['handlers'].keys())
-    if not handlers:
-        print("WARNING!!! No handlers defined!")
-    else:
+    if handlers:
         print(f"Handlers: {handlers}")
+    else:
+        print("WARNING!!! No handlers defined!")
 
     resources = {kind: resource_map[kind] for kind in kinds}
 
