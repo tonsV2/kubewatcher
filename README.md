@@ -75,6 +75,12 @@ python -m twine upload dist/*
 ```
 
 # Changelog
+## Version 1.5.0
+ - Helm package
+ - Default slack bot icon and username
+ - "In cluster" API authentication
+ - Command line arguments parsing via Click
+
 ## Version 1.4.0
  - Release on PyPI
 
