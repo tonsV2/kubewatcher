@@ -54,7 +54,25 @@ docker-compose up
 ```
 
 ## Helm
-Coming soon
+### Install
+Please see [values.yaml](helm/values.yaml) for an example configuration
+
+```bash
+helm upgrade --install kubewatcher --namespace kubewatcher tons/kubewatcher --values values.yaml
+```
+
+### Package
+```bash
+helm package --sign --key 'helm' --keyring ~/.gnupg/pubring.gpg helm/
+```
+
+### Push
+```bash
+curl --user "$CHARTMUSEUM_AUTH_USER:$CHARTMUSEUM_AUTH_PASS" \
+            -F "chart=@kubewatcher-1.0.0.tgz" \
+            -F "prov=@kubewatcher-1.0.0.tgz.prov" \
+            https://helm-charts.fitfit.dk/api/charts
+```
 
 # Development Setup
 ```bash
