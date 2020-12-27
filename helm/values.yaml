@@ -1,0 +1,87 @@
+# Default values for kubewatcher.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+config:
+  filters:
+    - kind: Pod
+      apiVersion: v1
+      conditions:
+        - status.containerStatuses[*].state.terminated.exitCode != 0
+      message:
+        template: "Pod: {NAME} in {NAMESPACE} terminated with nonzero exit code"
+        attributes:
+          NAME: metadata.name
+          NAMESPACE: metadata.namespace
+
+    - kind: Event
+      apiVersion: v1
+      conditions:
+        - type == Warning
+      message:
+        template: "Event: Warning {NAME} in {NAMESPACE} (reason: {REASON}, message: {MESSAGE})"
+        attributes:
+          NAME: metadata.name
+          NAMESPACE: metadata.namespace
+          REASON: reason
+          MESSAGE: message
+
+#  handlers:
+#    slack:
+#      channel: "${SLACK_HANDLER_CHANNEL}"
+#      token: $SLACK_HANDLER_TOKEN
+#      username: KubeWatcher-helm
+
+# TODO: For some reason the SLACK_HANDLER_CHANNEL variable won't be interpolated if the value begins with '#'
+#  The current solution is simply to list specify the channel without the '#' prefix
+#env:
+#  SLACK_HANDLER_CHANNEL: "channel"
+#  SLACK_HANDLER_TOKEN: "xoxb-blabla..."
+
+image:
+  repository: tons/kubewatcher:1.5.0
+  pullPolicy: IfNotPresent
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ""
+
+podAnnotations: {}
+
+podSecurityContext: {}
+  # fsGroup: 2000
+
+securityContext: {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+resources: {}
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
