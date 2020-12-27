@@ -30,7 +30,6 @@ config:
 #    slack:
 #      channel: "${SLACK_HANDLER_CHANNEL}"
 #      token: $SLACK_HANDLER_TOKEN
-#      username: KubeWatcher-helm
 
 # TODO: For some reason the SLACK_HANDLER_CHANNEL variable won't be interpolated if the value begins with '#'
 #  The current solution is simply to list specify the channel without the '#' prefix
