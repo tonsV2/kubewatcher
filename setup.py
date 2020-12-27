@@ -1,16 +1,11 @@
-import os
-
 from setuptools import setup, find_packages
 
-
-def read(filename):
-    return open(os.path.join(os.path.dirname(__file__), filename)).read()
-
+description = 'Please see https://github.com/tonsV2/kubewatcher for details'
 
 setup(
     name='kubewatcher',
     version='1.5.0',
-    description='See https://github.com/tonsV2/kubewatcher',
+    description=description,
     python_requires='>=3.8',
     packages=find_packages(),
     install_requires=[
@@ -23,5 +18,5 @@ setup(
     entry_points={
         'console_scripts': ['kubewatcher=kubewatcher.kubewatcher:cli']
     },
-    long_description=read('README.md'),
+    long_description=description,
 )
