@@ -44,7 +44,7 @@ def cli(config_files):
     launcher = ThreadLauncher()
     for kind, resource in resources.items():
         filters = filter(lambda f: f['kind'] == kind, config['filters'])
-        launcher.launch(resource_watcher, [config, resource, filters, kind])
+        launcher.launch(resource_watcher, [config, resource, list(filters), kind])
     launcher.join()
 
 
