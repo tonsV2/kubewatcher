@@ -1,6 +1,7 @@
 import asyncio
 import functools
 import json
+import logging
 import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
@@ -25,14 +26,14 @@ def handle(config, message, raw_object):
         if config['handlers']['slack']:
             response = post_message_to_slack(config, message)
             if response['ok']:
-                print(f"Slack {config['handlers']['slack']['channel']}: {message}")
+                logging.info(f"Slack {config['handlers']['slack']['channel']}: {message}")
             else:
-                print(f"Slack error: {yaml.safe_dump(response)}")
+                logging.info(f"Slack error: {yaml.safe_dump(response)}")
 
         if config['handlers']['smtp']:
             send_mail(config, message, raw_object)
     else:
-        print("WARNING: No handlers configured!")
+        logging.info("WARNING: No handlers configured!")
 
 
 # Inspiration: https://www.tutorialspoint.com/send-mail-from-your-gmail-account-using-python
@@ -56,10 +57,10 @@ def send_mail(config, message, raw_object):
 
         try:
             session.sendmail(smtp_config['from'], to, mail.as_string())
-            print(f"SMTP {to}: {message}")
+            logging.info(f"SMTP {to}: {message}")
         except smtplib.SMTPException as exc:
-            print("SMTPException:")
-            print(exc)
+            logging.error("SMTPException:")
+            logging.error(exc)
 
         session.quit()
 
