@@ -1,0 +1,8 @@
+version: '3.6'
+services:
+  sut:
+    build: .
+    volumes:
+      - .:/src
+    working_dir: /src
+    entrypoint: python -m unittest -v
