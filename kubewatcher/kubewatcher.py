@@ -48,19 +48,23 @@ def cli(config_files):
     launcher.join()
 
 
-def resource_watcher(config, resource, pod_filters, kind):
-    watcher = k8s.watch.Watch()
-    stream = watcher.stream(resource, timeout_seconds=0)
-    for raw_event in stream:
-        raw_object = raw_event['raw_object']
-        name = extract_value(raw_object, "metadata.name")
-        namespace = extract_value(raw_object, "metadata.namespace")
-        print(f"{kind}: {name} in {namespace}")
-        for pod_filter in pod_filters:
-            if trigger(pod_filter, raw_object):
-                message = generate_message(pod_filter['message'], raw_object)
-                print(f"❌ {message}")
-                handle(config, message, raw_object)
+def resource_watcher(config, resource, filters, kind):
+    resource_version = 0
+    while True:
+        logging.info(f"Starting from ({kind}): {resource_version}")
+        watcher = k8s.watch.Watch()
+        stream = watcher.stream(resource, timeout_seconds=0, resource_version=resource_version)
+        for raw_event in stream:
+            raw_object = raw_event['raw_object']
+            name = extract_value(raw_object, "metadata.name")
+            namespace = extract_value(raw_object, "metadata.namespace")
+            print(f"{kind}: {name} in {namespace}")
+            for filter in filters:
+                if trigger(filter, raw_object):
+                    message = generate_message(filter['message'], raw_object)
+                    print(f"❌ {message}")
+                    handle(config, message, raw_object)
+        resource_version = resource().metadata.resource_version
 
 
 def generate_message(message_data, raw_object):
