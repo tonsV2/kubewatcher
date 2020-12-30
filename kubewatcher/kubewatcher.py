@@ -1,3 +1,4 @@
+import logging
 import os
 
 import click
@@ -8,6 +9,9 @@ from kubernetes.config import kube_config, incluster_config
 from kubewatcher.handlers import handle
 from kubewatcher.path_extractor import extract_value, evaluate_path
 from kubewatcher.thread_launcher import ThreadLauncher
+
+log_format = '%(asctime)s %(levelname)s:%(message)s'
+logging.basicConfig(level=logging.INFO, format=log_format)
 
 
 @click.command()
@@ -31,13 +35,13 @@ def cli(config_files):
     }
 
     kinds = {f['kind'] for f in config['filters']}
-    print(f"Kinds observed: {list(kinds)}")
+    logging.info(f"Kinds observed: {list(kinds)}")
 
     handlers = list(config['handlers'].keys())
     if handlers:
-        print(f"Handlers: {handlers}")
+        logging.info(f"Handlers: {handlers}")
     else:
-        print("WARNING!!! No handlers defined!")
+        logging.warning("No handlers defined!")
 
     resources = {kind: resource_map[kind] for kind in kinds}
 
@@ -58,11 +62,11 @@ def resource_watcher(config, resource, filters, kind):
             raw_object = raw_event['raw_object']
             name = extract_value(raw_object, "metadata.name")
             namespace = extract_value(raw_object, "metadata.namespace")
-            print(f"{kind}: {name} in {namespace}")
+            logging.info(f"{kind}: {name} in {namespace}")
             for filter in filters:
                 if trigger(filter, raw_object):
                     message = generate_message(filter['message'], raw_object)
-                    print(f"❌ {message}")
+                    logging.info(f"❌ {message}")
                     handle(config, message, raw_object)
         resource_version = resource().metadata.resource_version
 
