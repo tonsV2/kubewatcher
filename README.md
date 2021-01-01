@@ -44,7 +44,7 @@ pip install kubewatcher
 ```
 
 # Run
-Your default context from `~/.kube/config` will be used.
+By default `~/.kube/config` and your current context will be used, but config file location and context can be specified using command line arguments. Please see `kubewatcher --help` for details.
 
 ## Natively
 By default, `kubewatcher` will look for a config file (config.yaml) in the current directory. Different locations, and names, can be specified using the `-f` argument.

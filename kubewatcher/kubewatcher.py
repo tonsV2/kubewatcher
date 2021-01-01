@@ -16,10 +16,12 @@ logging.basicConfig(level=logging.INFO, format=log_format)
 
 @click.command()
 @click.option('--config-file', '-f', "config_files", multiple=True, default=["config.yaml"])
-def cli(config_files):
+@click.option('--kube-config-file', '-k', default=None)
+@click.option('--context', '-c', default=None)
+def cli(config_files: [], kube_config_file: str, context: str):
     config = read_configs(config_files)
 
-    read_kube_config()
+    read_kube_config(kube_config_file, context)
 
     core_api = k8s.client.CoreV1Api()
     batch_v1_api = k8s.client.BatchV1Api()
@@ -125,8 +127,8 @@ def read_configs(config_files: []) -> {}:
     return config
 
 
-def read_kube_config():
+def read_kube_config(kube_config_file: str, context: str):
     if "KUBERNETES_SERVICE_HOST" in os.environ:
         incluster_config.load_incluster_config()
     else:
-        kube_config.load_kube_config()
+        kube_config.load_kube_config(kube_config_file, context)
