@@ -28,6 +28,9 @@ def handle(config, message, raw_object):
 
         if 'smtp' in config['handlers']:
             send_mail(config, message, raw_object)
+
+        if 'telegram' in config['handlers']:
+            post_message_to_telegram(config, message)
     else:
         logging.info("WARNING: No handlers configured!")
 
@@ -80,3 +83,20 @@ def post_message_to_slack(config, text, blocks=None):
         logging.info(f"Handler:Slack {config['handlers']['slack']['channel']}: {text}")
     else:
         logging.info(f"Handler:Slack error: {yaml.safe_dump(response)}")
+
+
+# Inspiration: https://medium.com/@ManHay_Hong/how-to-create-a-telegram-bot-and-send-messages-with-python-4cf314d9fa3e
+def post_message_to_telegram(config, message):
+    telegram = config['handlers']['telegram']
+
+    token = telegram['token']
+    chat_id = telegram['chatId']
+
+    url = f"https://api.telegram.org/bot{token}/sendMessage?chat_id={chat_id}&parse_mode=Markdown&text={message}"
+    response = requests.get(url).json()
+
+    if response['ok']:
+        logging.info(f"Handler:Telegram: {message}")
+    else:
+        logging.info(f"Handler:Telegram error: {yaml.safe_dump(response)}")
+
