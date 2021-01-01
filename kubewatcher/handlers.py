@@ -23,14 +23,14 @@ def run_in_executor(f):
 @run_in_executor
 def handle(config, message, raw_object):
     if 'handlers' in config:
-        if config['handlers']['slack']:
+        if 'slack' in config['handlers']:
             response = post_message_to_slack(config, message)
             if response['ok']:
                 logging.info(f"Slack {config['handlers']['slack']['channel']}: {message}")
             else:
                 logging.info(f"Slack error: {yaml.safe_dump(response)}")
 
-        if config['handlers']['smtp']:
+        if 'smtp' in config['handlers']:
             send_mail(config, message, raw_object)
     else:
         logging.info("WARNING: No handlers configured!")
