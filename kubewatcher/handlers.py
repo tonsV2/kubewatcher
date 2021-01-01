@@ -24,11 +24,7 @@ def run_in_executor(f):
 def handle(config, message, raw_object):
     if 'handlers' in config:
         if 'slack' in config['handlers']:
-            response = post_message_to_slack(config, message)
-            if response['ok']:
-                logging.info(f"Slack {config['handlers']['slack']['channel']}: {message}")
-            else:
-                logging.info(f"Slack error: {yaml.safe_dump(response)}")
+            post_message_to_slack(config, message)
 
         if 'smtp' in config['handlers']:
             send_mail(config, message, raw_object)
@@ -57,7 +53,7 @@ def send_mail(config, message, raw_object):
 
         try:
             session.sendmail(smtp_config['from'], to, mail.as_string())
-            logging.info(f"SMTP {to}: {message}")
+            logging.info(f"Handler:SMTP {to}: {message}")
         except smtplib.SMTPException as exc:
             logging.error("SMTPException:")
             logging.error(exc)
@@ -71,7 +67,7 @@ def post_message_to_slack(config, text, blocks=None):
     default_username = "KubeWatcher"
 
     slack = config['handlers']['slack']
-    return requests.post('https://slack.com/api/chat.postMessage', {
+    response = requests.post('https://slack.com/api/chat.postMessage', {
         'token': slack['token'],
         'channel': slack['channel'],
         'text': text,
@@ -79,3 +75,8 @@ def post_message_to_slack(config, text, blocks=None):
         'username': slack['username'] if 'username' in slack else default_username,
         'blocks': json.dumps(blocks) if blocks else None
     }).json()
+
+    if response['ok']:
+        logging.info(f"Handler:Slack {config['handlers']['slack']['channel']}: {text}")
+    else:
+        logging.info(f"Handler:Slack error: {yaml.safe_dump(response)}")
