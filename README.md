@@ -35,6 +35,8 @@ The idea is that you can define a filter and if there's a match it will be handl
 Please see [config.yaml](config.yaml) for an example configuration
 
 ## Handlers
+Currently Slack, Telegram and mail handlers are supported. Let me know if your favorite protocol is missing, and I'll see what I can do.
+
  - Uncomment the relevant handlers in [config.yaml](config.yaml)
  - Create an .env file. Possible use [.env.example](.env.example) as a starting point
 
