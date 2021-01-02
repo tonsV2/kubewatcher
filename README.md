@@ -21,6 +21,7 @@ The idea is that you can define a filter and if there's a match it will be handl
 - [Run test suite](#run-test-suite)
 - [Release on PyPI](#release-on-pypi)
 - [Changelog](#changelog)
+  - [Version 1.6.0](#version-160)
   - [Version 1.5.0](#version-150)
   - [Version 1.4.0](#version-140)
   - [Version 1.3.0](#version-130)
