@@ -97,6 +97,12 @@ python -m twine upload dist/*
 ```
 
 # Changelog
+## Version 1.6.0
+ - Telegram handler
+ - Initial CI
+ - Log rather than print
+ - Rewrite main application loop, now loops forever
+
 ## Version 1.5.0
  - Helm package
  - Default slack bot icon and username
