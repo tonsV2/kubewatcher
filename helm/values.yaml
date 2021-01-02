@@ -38,7 +38,7 @@ config:
 #  SLACK_HANDLER_TOKEN: "xoxb-blabla..."
 
 image:
-  repository: tons/kubewatcher:1.5.0
+  repository: tons/kubewatcher:1.6.0
   pullPolicy: IfNotPresent
 
 imagePullSecrets: []
