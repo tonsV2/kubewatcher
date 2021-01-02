@@ -4,7 +4,7 @@ description = 'Please see https://github.com/tonsV2/kubewatcher for details'
 
 setup(
     name='kubewatcher',
-    version='1.5.0',
+    version='1.6.0',
     description=description,
     python_requires='>=3.8',
     packages=find_packages(),
