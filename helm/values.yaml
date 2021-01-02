@@ -72,6 +72,8 @@ config:
 #  TELEGRAM_HANDLER_API_TOKEN=1234...
 #  TELEGRAM_HANDLER_CHAT_ID=4321...
 
+skipRole: false
+
 image:
   repository: tons/kubewatcher:1.6.0
   pullPolicy: IfNotPresent
