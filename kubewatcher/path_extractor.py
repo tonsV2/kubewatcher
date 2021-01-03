@@ -52,7 +52,8 @@ def extract_value(data, path) -> str:
     split_path = path.split(".")
     result = []
     yaml_rec(data, split_path, result)
-    # TODO: assert len(result) == 1 || raise exception
+    if len(result) > 1:
+        raise MultipleValuesException(f"Expected single value, got: {result}")
     return result[0]
 
 
@@ -82,3 +83,7 @@ def yaml_rec(data, split_path, result):
         else:
             if path_part in data:
                 return yaml_rec(data[path_part], split_path, result)
+
+
+class MultipleValuesException(Exception):
+    pass
