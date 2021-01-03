@@ -61,7 +61,7 @@ def send_mail(config, message, raw_object):
             logging.error("SMTPException:")
             logging.error(exc)
 
-        session.quit()
+    session.quit()
 
 
 # Inspiration: https://keestalkstech.com/2019/10/simple-python-code-to-send-message-to-slack-channel-without-packages/
