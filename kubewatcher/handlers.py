@@ -65,7 +65,7 @@ def send_mail(config, message, raw_object):
 
 
 # Inspiration: https://keestalkstech.com/2019/10/simple-python-code-to-send-message-to-slack-channel-without-packages/
-def post_message_to_slack(config, text, blocks=None):
+def post_message_to_slack(config, message, blocks=None):
     default_icon = "https://github.com/tonsV2/kubewatcher/raw/master/icons/icon.png"
     default_username = "KubeWatcher"
 
@@ -73,14 +73,14 @@ def post_message_to_slack(config, text, blocks=None):
     response = requests.post('https://slack.com/api/chat.postMessage', {
         'token': slack['token'],
         'channel': slack['channel'],
-        'text': text,
+        'text': message,
         'icon_url': slack['icon'] if 'icon' in slack else default_icon,
         'username': slack['username'] if 'username' in slack else default_username,
         'blocks': json.dumps(blocks) if blocks else None
     }).json()
 
     if response['ok']:
-        logging.info(f"Handler:Slack {config['handlers']['slack']['channel']}: {text}")
+        logging.info(f"Handler:Slack {config['handlers']['slack']['channel']}: {message}")
     else:
         logging.info(f"Handler:Slack error: {yaml.safe_dump(response)}")
 
@@ -99,4 +99,3 @@ def post_message_to_telegram(config, message):
         logging.info(f"Handler:Telegram: {message}")
     else:
         logging.info(f"Handler:Telegram error: {yaml.safe_dump(response)}")
-
