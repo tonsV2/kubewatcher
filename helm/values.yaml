@@ -65,7 +65,7 @@ config:
 #      chatId: $TELEGRAM_HANDLER_CHAT_ID
 
 # TODO: For some reason the SLACK_HANDLER_CHANNEL variable won't be interpolated if the value begins with '#'
-#  The current solution is simply to list specify the channel without the '#' prefix
+#  The current solution is simply to specify the channel without the '#' prefix
 #env:
 #  SLACK_HANDLER_CHANNEL: "channel"
 #  SLACK_HANDLER_TOKEN: "xoxb-blabla..."
