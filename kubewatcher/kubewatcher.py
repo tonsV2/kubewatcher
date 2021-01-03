@@ -54,7 +54,7 @@ def cli(config_files: [], kube_config_file: str, context: str):
     launcher.join()
 
 
-def resource_watcher(config, resource, filters, kind):
+def resource_watcher(config: {}, resource: classmethod, filters: {}, kind: str) -> None:
     resource_version = 0
     while True:
         logging.info(f"Starting from ({kind}): {resource_version}")
@@ -73,13 +73,13 @@ def resource_watcher(config, resource, filters, kind):
         resource_version = resource().metadata.resource_version
 
 
-def generate_message(message_data, raw_object):
+def generate_message(message_data: {}, raw_object: {}) -> str:
     attributes = {attribute: extract_value(raw_object, path) for attribute, path in message_data['attributes'].items()}
     message = message_data['template'].format(**attributes)
     return message
 
 
-def trigger(pod_filter, raw_object):
+def trigger(pod_filter: {}, raw_object: {}) -> bool:
     if api_version_does_not_match(pod_filter, raw_object):
         return False
 
@@ -93,15 +93,15 @@ def trigger(pod_filter, raw_object):
     return all(conditions)
 
 
-def api_version_does_not_match(pod_filter, raw_object):
+def api_version_does_not_match(pod_filter: {}, raw_object: {}) -> bool:
     return 'apiVersion' in pod_filter and pod_filter['apiVersion'] != raw_object['apiVersion']
 
 
-def namespace_ignored(namespace, namespaces):
+def namespace_ignored(namespace: str, namespaces: []) -> bool:
     return 'ignore' in namespaces and namespace in namespaces['ignore']
 
 
-def namespace_not_included(namespace, namespaces):
+def namespace_not_included(namespace: str, namespaces: []) -> bool:
     return 'include' in namespaces and namespace not in namespaces['include']
 
 
@@ -127,7 +127,7 @@ def read_configs(config_files: []) -> {}:
     return config
 
 
-def read_kube_config(kube_config_file: str = None, context: str = None):
+def read_kube_config(kube_config_file: str = None, context: str = None) -> None:
     if "KUBERNETES_SERVICE_HOST" in os.environ:
         incluster_config.load_incluster_config()
     else:
