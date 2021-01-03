@@ -1,5 +1,4 @@
 from unittest import TestCase
-from unittest import TestCase
 from unittest.mock import patch
 
 from kubewatcher.handlers import post_message_to_telegram
