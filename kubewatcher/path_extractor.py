@@ -8,7 +8,7 @@ class Operator(Enum):
     GRATER_THAN = ">"
 
 
-def evaluate_path(obj, path_str: str) -> bool:
+def evaluate_path(obj: {}, path_str: str) -> bool:
     operator = __get_operator(path_str)
     left, right = path_str.split(operator.value)
     values = extract_values(obj, left)
@@ -34,21 +34,21 @@ def __compare(left: str, operator: Operator, right: str) -> bool:
         return int(left) > int(right)
 
 
-def __get_operator(path_str):
+def __get_operator(path_str: str):
     operators = ["==", "!=", "<", ">"]
     for operator in operators:
         if path_str.find(operator) != -1:
             return Operator(operator)
 
 
-def extract_values(data, path) -> []:
+def extract_values(data: {}, path: str) -> []:
     split_path = path.split(".")
     result = []
     yaml_rec(data, split_path, result)
     return result
 
 
-def extract_value(data, path) -> str:
+def extract_value(data: {}, path: str) -> str:
     split_path = path.split(".")
     result = []
     yaml_rec(data, split_path, result)
@@ -57,7 +57,7 @@ def extract_value(data, path) -> str:
     return result[0]
 
 
-def yaml_rec(data, split_path, result):
+def yaml_rec(data: {}, split_path: [], result: []):
     path_part = split_path.pop(0).strip()
     # if len(split_path) == 0 and path_part.endswith("]"):
     #     find = path_part.find("[")
