@@ -127,7 +127,7 @@ def read_configs(config_files: []) -> {}:
     return config
 
 
-def read_kube_config(kube_config_file: str, context: str):
+def read_kube_config(kube_config_file: str = None, context: str = None):
     if "KUBERNETES_SERVICE_HOST" in os.environ:
         incluster_config.load_incluster_config()
     else:
