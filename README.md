@@ -1,4 +1,7 @@
 # Kube Watcher
+![Docker image creation](https://github.com/tonsV2/kubewatcher/workflows/Docker%20image%20creation/badge.svg)
+![Python packaging](https://github.com/tonsV2/kubewatcher/workflows/Python%20packaging/badge.svg)
+
 Simple and highly configurable Kubernetes monitor
 
 The idea is that you can define a filter and if there's a match it will be handled by the handlers you define.
@@ -76,8 +79,8 @@ helm package --sign --key 'helm' --keyring ~/.gnupg/pubring.gpg helm/
 ### Push
 ```bash
 curl --user "$CHARTMUSEUM_AUTH_USER:$CHARTMUSEUM_AUTH_PASS" \
-            -F "chart=@kubewatcher-1.0.0.tgz" \
-            -F "prov=@kubewatcher-1.0.0.tgz.prov" \
+            -F "chart=@kubewatcher-1.1.0.tgz" \
+            -F "prov=@kubewatcher-1.1.0.tgz.prov" \
             https://helm-charts.fitfit.dk/api/charts
 ```
 
