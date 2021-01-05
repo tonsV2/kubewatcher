@@ -57,7 +57,6 @@ def cli(config_files: [], kube_config_file: str, context: str):
 def resource_watcher(config: {}, resource: classmethod, filters: {}, kind: str) -> None:
     resource_version = 0
     while True:
-        logging.info(f"Starting from ({kind}): {resource_version}")
         watcher = k8s.watch.Watch()
         stream = watcher.stream(resource, timeout_seconds=0, resource_version=resource_version)
         for raw_event in stream:
