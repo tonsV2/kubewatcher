@@ -1,6 +1,6 @@
 # Kube Watcher
-![Python packaging](https://github.com/tonsV2/kubewatcher/workflows/Python%20packaging/badge.svg)
-![Docker image creation](https://github.com/tonsV2/kubewatcher/workflows/Docker%20image%20creation/badge.svg)
+[![Python packaging](https://github.com/tonsV2/kubewatcher/workflows/Python%20packaging/badge.svg)](https://github.com/tonsV2/kubewatcher/actions?query=workflow%3A%22Python+packaging%22)
+[![Docker image creation](https://github.com/tonsV2/kubewatcher/workflows/Docker%20image%20creation/badge.svg)](https://github.com/tonsV2/kubewatcher/actions?query=workflow%3A%22Docker+image+creation%22)
 
 Simple and highly configurable Kubernetes monitor
 
