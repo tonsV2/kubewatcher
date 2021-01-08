@@ -3,8 +3,8 @@ from yamlpath.exceptions import YAMLPathException
 from yamlpath.wrappers import ConsolePrinter
 
 
-def evaluate_path(obj: {}, path_str: str) -> bool:
-    values = extract_values(obj, path_str)
+def evaluate_path(data: {}, path: str) -> bool:
+    values = extract_values(data, path)
     return len(values) > 0
 
 
