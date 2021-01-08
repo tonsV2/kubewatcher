@@ -61,9 +61,7 @@ def resource_watcher(config: {}, resource: classmethod, filters: {}, kind: str) 
         stream = watcher.stream(resource, timeout_seconds=0, resource_version=resource_version)
         for raw_event in stream:
             raw_object = raw_event['raw_object']
-            name = extract_value(raw_object, "metadata.name")
-            namespace = extract_value(raw_object, "metadata.namespace")
-            logging.info(f"{kind}: {name} in {namespace}")
+            log_current_object(raw_object, kind)
             for filter in filters:
                 if trigger(filter, raw_object):
                     message = generate_message(filter['message'], raw_object)
@@ -78,15 +76,29 @@ def generate_message(message_data: {}, raw_object: {}) -> str:
     return message
 
 
+def log_current_object(raw_object: {}, kind: str):
+    name = extract_value(raw_object, "metadata.name")
+    if has_namespace(raw_object):
+        namespace = extract_value(raw_object, "metadata.namespace")
+        logging.info(f"{kind}: {name} in {namespace}")
+    else:
+        logging.info(f"{kind}: {name}")
+
+
+def has_namespace(raw_object: {}):
+    return 'metadata' in raw_object and 'namespace' in raw_object['metadata']
+
+
 def trigger(pod_filter: {}, raw_object: {}) -> bool:
     if api_version_does_not_match(pod_filter, raw_object):
         return False
 
-    namespace = raw_object['metadata']['namespace']
-    if 'namespaces' in pod_filter:
-        namespaces = pod_filter['namespaces']
-        if namespace_ignored(namespace, namespaces) or namespace_not_included(namespace, namespaces):
-            return False
+    if has_namespace(raw_object):
+        namespace = raw_object['metadata']['namespace']
+        if 'namespaces' in pod_filter:
+            namespaces = pod_filter['namespaces']
+            if namespace_ignored(namespace, namespaces) or namespace_not_included(namespace, namespaces):
+                return False
 
     conditions = [evaluate_path(raw_object, condition) for condition in pod_filter['conditions']]
     return all(conditions)
