@@ -4,7 +4,7 @@
 
 Simple and highly configurable Kubernetes monitor
 
-The idea is that you can define a filter and if there's a match it will be handled by the handlers you define.
+The idea is that you define a filter and if there's a match you'll get a message via Slack, Telegram or mail.
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
