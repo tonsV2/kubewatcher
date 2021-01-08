@@ -77,7 +77,7 @@ class Test(TestCase):
         mock_session.starttls.assert_called_once()
         mock_session.login.assert_called_once_with(from_, password)
         mock_session.sendmail.assert_called()
-        self.assertEqual(mock_session.sendmail.call_count, 2)
+        self.assertEqual(2, mock_session.sendmail.call_count)
         mock_session.quit.assert_called_once()
 
     @patch("smtplib.SMTP")

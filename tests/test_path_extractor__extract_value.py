@@ -13,7 +13,7 @@ class Test(TestCase):
 
         actual_value = extract_value(data, path)
 
-        self.assertEqual(actual_value, "value")
+        self.assertEqual("value", actual_value)
 
     def test_extract_value__nested_property(self):
         data = {
@@ -26,7 +26,7 @@ class Test(TestCase):
 
         actual_value = extract_value(data, path)
 
-        self.assertEqual(actual_value, "value")
+        self.assertEqual("value", actual_value)
 
     def test_extract_value__multiple_values_exception(self):
         data = {

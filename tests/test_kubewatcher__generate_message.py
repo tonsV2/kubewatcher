@@ -31,4 +31,4 @@ class Test(TestCase):
         actual_message = generate_message(message_data, raw_object)
 
         expected_message = "Pod: test-name in test-namespace has restarted 123 times"
-        self.assertEqual(actual_message, expected_message)
+        self.assertEqual(expected_message, actual_message)
