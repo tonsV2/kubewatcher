@@ -1,4 +1,4 @@
-from yamlpath import Processor, YAMLPath
+from yamlpath import Processor
 from yamlpath.exceptions import YAMLPathException
 from yamlpath.wrappers import ConsolePrinter
 
@@ -26,8 +26,7 @@ def extract_values(data: {}, path: str) -> []:
 
     try:
         processor = Processor(log, data)
-        yaml_path = YAMLPath(path)
-        nodes = processor.get_nodes(yaml_path)
+        nodes = processor.get_nodes(path)
         return [n.node for n in nodes]
     except YAMLPathException as ex:
         print(ex)
