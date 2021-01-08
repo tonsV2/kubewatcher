@@ -36,6 +36,6 @@ class Test(TestCase):
             ]
         }
 
-        path = "property[*].state"
+        path = "property.*.state"
 
         self.assertRaises(MultipleValuesException, extract_value, data, path)

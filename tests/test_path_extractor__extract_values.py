@@ -12,8 +12,7 @@ class Test(TestCase):
         path = "property"
 
         actual_value = extract_values(data, path)
-
-        self.assertEqual(actual_value, ["value"])
+        self.assertEqual(["value"], actual_value)
 
     def test_extract_values__nested_property(self):
         data = {
@@ -26,7 +25,7 @@ class Test(TestCase):
 
         actual_value = extract_values(data, path)
 
-        self.assertEqual(actual_value, ["value"])
+        self.assertEqual(["value"], actual_value)
 
     def test_extract_values__multiple_values(self):
         data = {
@@ -36,11 +35,11 @@ class Test(TestCase):
             ]
         }
 
-        path = "property[*].state"
+        path = "property.*.state"
 
         actual_value = extract_values(data, path)
 
-        self.assertEqual(actual_value, ["value0", "value1"])
+        self.assertEqual(["value0", "value1"], actual_value)
 
     def test_extract_values__multiple_nested_values(self):
         data = {
@@ -58,8 +57,8 @@ class Test(TestCase):
             ]
         }
 
-        path = "property[*].property.state"
+        path = "property.*.property.state"
 
         actual_value = extract_values(data, path)
 
-        self.assertEqual(actual_value, ["value0", "value1"])
+        self.assertEqual(["value0", "value1"], actual_value)

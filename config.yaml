@@ -7,7 +7,7 @@ filters:
 #      ignore:
 #        - heptio-sonobuoy
     conditions:
-      - status.containerStatuses[*].state.terminated.exitCode != 0
+      - status.containerStatuses.*.state.terminated[exitCode != 0]
     message:
       template: "Pod: {NAME} in {NAMESPACE} terminated with nonzero exit code"
       attributes:
@@ -17,18 +17,18 @@ filters:
   - kind: Pod
     apiVersion: v1
     conditions:
-      - status.containerStatuses[*].restartCount > 10
+      - status.containerStatuses[restartCount > 10]
     message:
       template: "Pod: {NAME} in {NAMESPACE} has restarted {RESTART_COUNT} times"
       attributes:
         NAME: metadata.name
         NAMESPACE: metadata.namespace
-        RESTART_COUNT: status.containerStatuses[*].restartCount
+        RESTART_COUNT: status.containerStatuses[restartCount > 10].restartCount
 
   - kind: Event
     apiVersion: v1
     conditions:
-      - type == Warning
+      - [type == Warning]
 #      - reason != ImageGCFailed
 #      - reason != FreeDiskSpaceFailed
     message:
@@ -42,14 +42,14 @@ filters:
   - kind: Job
     apiVersion: batch/v1
     conditions:
-      - status.conditions[*].type == Failed
+      - status.conditions[type == Failed]
     message:
       template: "Job: {NAME} in {NAMESPACE} failed (reason: {REASON}, message: {MESSAGE})"
       attributes:
         NAME: metadata.name
         NAMESPACE: metadata.namespace
-        REASON: status.conditions[*].reason
-        MESSAGE: status.conditions[*].message
+        REASON: status.conditions[type == Failed].reason
+        MESSAGE: status.conditions[type == Failed].message
 
 #handlers:
 #  telegram:

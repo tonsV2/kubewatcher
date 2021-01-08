@@ -10,7 +10,7 @@ class Test(TestCase):
             "attributes": {
                 "NAME": "metadata.name",
                 "NAMESPACE": "metadata.namespace",
-                "RESTART_COUNT": "status.containerStatuses[*].restartCount"
+                "RESTART_COUNT": "status.containerStatuses.*.restartCount"
             }
         }
 

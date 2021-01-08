@@ -6,10 +6,10 @@ from kubewatcher.path_extractor import evaluate_path
 class Test(TestCase):
     def test_evaluate_path__simple_property_less_than(self):
         data = {
-            "property": 1
+            "property": "1"
         }
 
-        path = "property < 2"
+        path = "[property < 2]"
 
         actual_value = evaluate_path(data, path)
 
@@ -17,10 +17,10 @@ class Test(TestCase):
 
     def test_evaluate_path__simple_property_grater_than(self):
         data = {
-            "property": 1
+            "property": "1"
         }
 
-        path = "property > 0"
+        path = "[property > 0]"
 
         actual_value = evaluate_path(data, path)
 
@@ -31,7 +31,7 @@ class Test(TestCase):
             "property": "value"
         }
 
-        path = "property == value"
+        path = "[property == value]"
 
         actual_value = evaluate_path(data, path)
 
@@ -42,7 +42,7 @@ class Test(TestCase):
             "property": "value"
         }
 
-        path = "property != nope"
+        path = "[property != nope]"
 
         actual_value = evaluate_path(data, path)
 
@@ -53,7 +53,7 @@ class Test(TestCase):
             "property": "value"
         }
 
-        path = "property == nope"
+        path = "[property == nope]"
 
         actual_value = evaluate_path(data, path)
 
@@ -66,7 +66,7 @@ class Test(TestCase):
             }
         }
 
-        path = "property.property == value"
+        path = "property[property == value]"
 
         actual_value = evaluate_path(data, path)
 
@@ -80,7 +80,7 @@ class Test(TestCase):
             ]
         }
 
-        path = "property[*].state == value0"
+        path = "property[state == value0]"
 
         actual_value = evaluate_path(data, path)
 
@@ -94,7 +94,7 @@ class Test(TestCase):
             ]
         }
 
-        path = "property[*].state == value1"
+        path = "property[state == value1]"
 
         actual_value = evaluate_path(data, path)
 
@@ -116,7 +116,7 @@ class Test(TestCase):
             ]
         }
 
-        path = "property[*].property.state == value0"
+        path = "property.*.property[state == value0]"
 
         actual_value = evaluate_path(data, path)
 
@@ -138,7 +138,7 @@ class Test(TestCase):
             ]
         }
 
-        path = "property[*].property.state == value1"
+        path = "property.*.property[state == value1]"
 
         actual_value = evaluate_path(data, path)
 
