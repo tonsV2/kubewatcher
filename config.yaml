@@ -1,4 +1,14 @@
 filters:
+  - kind: Node
+    apiVersion: v1
+    conditions:
+      - status.conditions[type == DiskPressure][status == True]
+    message:
+      template: "Node: {NAME} has disk pressure"
+      attributes:
+        NAME: metadata.name
+    tests: [ data/node-diskpressure.yaml ]
+
   - kind: Pod
     apiVersion: v1
 #    namespaces:
