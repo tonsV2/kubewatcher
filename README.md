@@ -10,9 +10,9 @@ The idea is that you define a filter and if there's a match you'll get a message
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 - [Kube Watcher](#kube-watcher)
 
+- [Install](#install)
 - [Configuration](#configuration)
   - [Handlers](#handlers)
-- [Install](#install)
 - [Run](#run)
   - [Natively](#natively)
   - [Docker](#docker)
@@ -34,6 +34,11 @@ The idea is that you define a filter and if there's a match you'll get a message
 - [Credits](#credits)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
+# Install
+```bash
+pip install kubewatcher
+```
 
 # Configuration
 Please see [config.yaml](config.yaml) for an example configuration
