@@ -28,9 +28,9 @@ filters:
   - kind: Event
     apiVersion: v1
     conditions:
-      - [type == Warning]
-#      - reason != ImageGCFailed
-#      - reason != FreeDiskSpaceFailed
+      - '[type == Warning]'
+#      - [reason != ImageGCFailed]
+#      - [reason != FreeDiskSpaceFailed]
     message:
       template: "Event: Warning {NAME} in {NAMESPACE} (reason: {REASON}, message: {MESSAGE})"
       attributes:
