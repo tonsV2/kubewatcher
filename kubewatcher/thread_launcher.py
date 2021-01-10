@@ -6,6 +6,7 @@ class ThreadLauncher(object):
 
     def launch(self, target, args):
         thread = threading.Thread(target=target, args=args)
+        thread.daemon = True
         self._threads.append(thread)
         thread.start()
 
