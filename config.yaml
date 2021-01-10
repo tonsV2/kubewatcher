@@ -25,7 +25,7 @@ filters:
       template: "Node: {NAME} has disk pressure"
       attributes:
         NAME: metadata.name
-    tests: [ data/node-diskpressure.yaml ]
+    tests: [ tests/data/node-diskpressure.yaml ]
 
   - kind: Pod
     apiVersion: v1
@@ -42,7 +42,7 @@ filters:
         NAME: metadata.name
         NAMESPACE: metadata.namespace
     tests:
-      - data/pod-non-zero-exit-code.yaml
+      - tests/data/pod-non-zero-exit-code.yaml
 
   - kind: Pod
     apiVersion: v1
@@ -54,7 +54,7 @@ filters:
         NAME: metadata.name
         NAMESPACE: metadata.namespace
         RESTART_COUNT: status.containerStatuses[restartCount > 10].restartCount
-    tests: [ data/pod-restarted.yaml ]
+    tests: [ tests/data/pod-restarted.yaml ]
 
   - kind: Event
     apiVersion: v1
@@ -70,8 +70,8 @@ filters:
         REASON: reason
         MESSAGE: message
     tests:
-      - data/event-fail-BackOff.yaml
-      - data/event-warning.yaml
+      - tests/data/event-fail-BackOff.yaml
+      - tests/data/event-warning.yaml
 
   - kind: Job
     apiVersion: batch/v1
@@ -84,7 +84,7 @@ filters:
         NAMESPACE: metadata.namespace
         REASON: status.conditions[type == Failed].reason
         MESSAGE: status.conditions[type == Failed].message
-    tests: [ data/job-failed.yaml ]
+    tests: [ tests/data/job-failed.yaml ]
 
 settings:
   dryRun: false

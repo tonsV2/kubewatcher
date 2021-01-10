@@ -8,7 +8,7 @@ from kubewatcher.kubewatcher import trigger
 
 class Test(TestCase):
     def test_filters(self):
-        config_file = "../config.yaml"
+        config_file = "./config.yaml"
         config = read_configs([config_file])
 
         for f in config['filters']:
@@ -21,7 +21,7 @@ class Test(TestCase):
                     self.assertTrue(triggered)
 
     def test_ensure_all_filters_are_tested(self):
-        config_file = "../config.yaml"
+        config_file = "./config.yaml"
         config = read_configs([config_file])
 
         for f in config['filters']:
