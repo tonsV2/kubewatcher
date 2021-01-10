@@ -1,3 +1,21 @@
+#handlers:
+#  telegram:
+#    token: $TELEGRAM_HANDLER_API_TOKEN
+#    chatId: $TELEGRAM_HANDLER_CHAT_ID
+#  slack:
+#    channel: "${SLACK_HANDLER_CHANNEL}"
+#    token: $SLACK_HANDLER_TOKEN
+#    username: KubeWatcher-dev
+#    icon: https://github.com/tonsV2/kubewatcher/raw/master/icons/icon.png
+#  smtp:
+#    from: $SMTP_HANDLER_FROM
+#    password: $SMTP_HANDLER_PASSWORD
+#    host: smtp.gmail.com
+#    port: 587
+#    tls: true
+#    to:
+#      - $SMTP_HANDLER_TO
+
 filters:
   - kind: Node
     apiVersion: v1
@@ -67,24 +85,6 @@ filters:
         REASON: status.conditions[type == Failed].reason
         MESSAGE: status.conditions[type == Failed].message
     tests: [ data/job-failed.yaml ]
-
-#handlers:
-#  telegram:
-#    token: $TELEGRAM_HANDLER_API_TOKEN
-#    chatId: $TELEGRAM_HANDLER_CHAT_ID
-#  slack:
-#    channel: "${SLACK_HANDLER_CHANNEL}"
-#    token: $SLACK_HANDLER_TOKEN
-#    username: KubeWatcher-dev
-#    icon: https://github.com/tonsV2/kubewatcher/raw/master/icons/icon.png
-#  smtp:
-#    from: $SMTP_HANDLER_FROM
-#    password: $SMTP_HANDLER_PASSWORD
-#    host: smtp.gmail.com
-#    port: 587
-#    tls: true
-#    to:
-#      - $SMTP_HANDLER_TO
 
 settings:
   dryRun: false
