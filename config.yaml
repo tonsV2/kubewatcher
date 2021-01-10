@@ -13,6 +13,8 @@ filters:
       attributes:
         NAME: metadata.name
         NAMESPACE: metadata.namespace
+    tests:
+      - data/pod-non-zero-exit-code.yaml
 
   - kind: Pod
     apiVersion: v1
@@ -24,6 +26,7 @@ filters:
         NAME: metadata.name
         NAMESPACE: metadata.namespace
         RESTART_COUNT: status.containerStatuses[restartCount > 10].restartCount
+    tests: [ data/pod-restarted.yaml ]
 
   - kind: Event
     apiVersion: v1
@@ -38,6 +41,9 @@ filters:
         NAMESPACE: metadata.namespace
         REASON: reason
         MESSAGE: message
+    tests:
+      - data/event-fail-BackOff.yaml
+      - data/event-warning.yaml
 
   - kind: Job
     apiVersion: batch/v1
@@ -50,6 +56,7 @@ filters:
         NAMESPACE: metadata.namespace
         REASON: status.conditions[type == Failed].reason
         MESSAGE: status.conditions[type == Failed].message
+    tests: [ data/job-failed.yaml ]
 
 #handlers:
 #  telegram:

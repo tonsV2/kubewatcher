@@ -1,0 +1,190 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: '2020-12-18T04:00:05Z'
+  generateName: surf-screenshotter-1608264000-
+  labels: {controller-uid: 6d4d6894-bbe1-4659-ab3b-4516f9491106, job-name: surf-screenshotter-1608264000}
+  managedFields:
+    - apiVersion: v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:metadata:
+          f:generateName: {}
+          f:labels:
+            .: {}
+            f:controller-uid: {}
+            f:job-name: {}
+          f:ownerReferences:
+            .: {}
+            k:{"uid":"6d4d6894-bbe1-4659-ab3b-4516f9491106"}:
+              .: {}
+              f:apiVersion: {}
+              f:blockOwnerDeletion: {}
+              f:controller: {}
+              f:kind: {}
+              f:name: {}
+              f:uid: {}
+        f:spec:
+          f:containers:
+            k:{"name":"surf-screenshotter-worker"}:
+              .: {}
+              f:image: {}
+              f:imagePullPolicy: {}
+              f:name: {}
+              f:resources: {}
+              f:securityContext:
+                .: {}
+                f:capabilities:
+                  .: {}
+                  f:add: {}
+              f:terminationMessagePath: {}
+              f:terminationMessagePolicy: {}
+              f:volumeMounts:
+                .: {}
+                k:{"mountPath":"/data"}:
+                  .: {}
+                  f:mountPath: {}
+                  f:name: {}
+                k:{"mountPath":"/mnt/data"}:
+                  .: {}
+                  f:mountPath: {}
+                  f:name: {}
+                  f:readOnly: {}
+          f:dnsPolicy: {}
+          f:enableServiceLinks: {}
+          f:restartPolicy: {}
+          f:schedulerName: {}
+          f:securityContext: {}
+          f:terminationGracePeriodSeconds: {}
+          f:volumes:
+            .: {}
+            k:{"name":"configmap-data"}:
+              .: {}
+              f:configMap:
+                .: {}
+                f:defaultMode: {}
+                f:items: {}
+                f:name: {}
+              f:name: {}
+            k:{"name":"data"}:
+              .: {}
+              f:name: {}
+              f:persistentVolumeClaim:
+                .: {}
+                f:claimName: {}
+        f:status:
+          f:conditions:
+            k:{"type":"ContainersReady"}:
+              .: {}
+              f:lastProbeTime: {}
+              f:lastTransitionTime: {}
+              f:message: {}
+              f:reason: {}
+              f:status: {}
+              f:type: {}
+            k:{"type":"Initialized"}:
+              .: {}
+              f:lastProbeTime: {}
+              f:lastTransitionTime: {}
+              f:status: {}
+              f:type: {}
+            k:{"type":"Ready"}:
+              .: {}
+              f:lastProbeTime: {}
+              f:lastTransitionTime: {}
+              f:message: {}
+              f:reason: {}
+              f:status: {}
+              f:type: {}
+          f:containerStatuses: {}
+          f:hostIP: {}
+          f:phase: {}
+          f:podIP: {}
+          f:podIPs:
+            .: {}
+            k:{"ip":"10.42.0.152"}:
+              .: {}
+              f:ip: {}
+          f:startTime: {}
+      manager: k3s
+      operation: Update
+      time: '2020-12-18T04:00:57Z'
+  name: surf-screenshotter-1608264000-prdc2
+  namespace: surf-screenshotter-dev
+  ownerReferences:
+    - {apiVersion: batch/v1, blockOwnerDeletion: true, controller: true, kind: Job,
+       name: surf-screenshotter-1608264000, uid: 6d4d6894-bbe1-4659-ab3b-4516f9491106}
+  resourceVersion: '17568559'
+  selfLink: /api/v1/namespaces/surf-screenshotter-dev/pods/surf-screenshotter-1608264000-prdc2
+  uid: 2b8ba7a7-04f2-4cfa-9383-b6dfb08cb796
+spec:
+  containers:
+    - image: tons/surf-screenshotter-worker:0.7
+      imagePullPolicy: IfNotPresent
+      name: surf-screenshotter-worker
+      resources: {}
+      securityContext:
+        capabilities:
+          add: [SYS_ADMIN]
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+        - {mountPath: /data, name: data}
+        - {mountPath: /mnt/data, name: configmap-data, readOnly: true}
+        - {mountPath: /var/run/secrets/kubernetes.io/serviceaccount, name: default-token-52hbg,
+           readOnly: true}
+  dnsPolicy: ClusterFirst
+  enableServiceLinks: true
+  nodeName: nuc
+  priority: 0
+  restartPolicy: Never
+  schedulerName: default-scheduler
+  securityContext: {}
+  serviceAccount: default
+  serviceAccountName: default
+  terminationGracePeriodSeconds: 30
+  tolerations:
+    - {effect: NoExecute, key: node.kubernetes.io/not-ready, operator: Exists, tolerationSeconds: 300}
+    - {effect: NoExecute, key: node.kubernetes.io/unreachable, operator: Exists, tolerationSeconds: 300}
+  volumes:
+    - name: data
+      persistentVolumeClaim: {claimName: surf-screenshotter}
+    - configMap:
+        defaultMode: 420
+        items:
+          - {key: data.txt, path: data.txt}
+        name: surf-screenshotter
+      name: configmap-data
+    - name: default-token-52hbg
+      secret: {defaultMode: 420, secretName: default-token-52hbg}
+status:
+  conditions:
+    - {lastProbeTime: null, lastTransitionTime: '2020-12-18T04:00:05Z', status: 'True',
+       type: Initialized}
+    - {lastProbeTime: null, lastTransitionTime: '2020-12-18T04:00:57Z', message: 'containers
+      with unready status: [surf-screenshotter-worker]', reason: ContainersNotReady,
+       status: 'False', type: Ready}
+    - {lastProbeTime: null, lastTransitionTime: '2020-12-18T04:00:57Z', message: 'containers
+      with unready status: [surf-screenshotter-worker]', reason: ContainersNotReady,
+       status: 'False', type: ContainersReady}
+    - {lastProbeTime: null, lastTransitionTime: '2020-12-18T04:00:05Z', status: 'True',
+       type: PodScheduled}
+  containerStatuses:
+    - containerID: containerd://7387bd04b5cd725262cbbfde3a5f95c6afc460d536119d92d2cca594ceaf73a7
+      image: docker.io/tons/surf-screenshotter-worker:0.7
+      imageID: docker.io/tons/surf-screenshotter-worker@sha256:86468584ea59807a37b0dc625b6491f6eb43a9a1be63b1fbb241a3cd9758289b
+      lastState: {}
+      name: surf-screenshotter-worker
+      ready: false
+      restartCount: 0
+      started: false
+      state:
+        terminated: {containerID: containerd://7387bd04b5cd725262cbbfde3a5f95c6afc460d536119d92d2cca594ceaf73a7,
+                     exitCode: 2, finishedAt: '2020-12-18T04:00:56Z', reason: Error, startedAt: '2020-12-18T04:00:16Z'}
+  hostIP: 192.168.0.100
+  phase: Failed
+  podIP: 10.42.0.152
+  podIPs:
+    - {ip: 10.42.0.152}
+  qosClass: BestEffort
+  startTime: '2020-12-18T04:00:05Z'

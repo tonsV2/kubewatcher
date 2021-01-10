@@ -1,0 +1,47 @@
+kind: Event
+apiVersion: v1
+metadata:
+  name: nuc.163f99d6138f35f3
+  namespace: default
+  selfLink: /api/v1/namespaces/default/events/nuc.163f99d6138f35f3
+  uid: 80fe3da1-d4c9-461d-ba5f-0b1ee9cedf5c
+  resourceVersion: '18418066'
+  creationTimestamp: '2020-12-23T07:51:01Z'
+  managedFields:
+    - manager: k3s
+      operation: Update
+      apiVersion: v1
+      time: '2020-12-23T07:51:01Z'
+      fieldsType: FieldsV1
+      fieldsV1:
+        'f:count': {}
+        'f:firstTimestamp': {}
+        'f:involvedObject':
+          'f:kind': {}
+          'f:name': {}
+          'f:uid': {}
+        'f:lastTimestamp': {}
+        'f:message': {}
+        'f:reason': {}
+        'f:source':
+          'f:component': {}
+          'f:host': {}
+        'f:type': {}
+involvedObject:
+  kind: Node
+  name: nuc
+  uid: nuc
+reason: FreeDiskSpaceFailed
+message: >-
+  (combined from similar events): failed to garbage collect required amount of
+  images. Wanted to free 2767930982 bytes, but freed 0 bytes
+source:
+  component: kubelet
+  host: nuc
+firstTimestamp: '2020-10-20T04:45:37Z'
+lastTimestamp: '2020-12-23T07:51:01Z'
+count: 15676
+type: Warning
+eventTime: null
+reportingComponent: ''
+reportingInstance: ''

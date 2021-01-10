@@ -1,0 +1,160 @@
+kind: Job
+apiVersion: batch/v1
+metadata:
+  name: surf-screenshotter-1608595200
+  namespace: surf-screenshotter-dev
+  selfLink: >-
+    /apis/batch/v1/namespaces/surf-screenshotter-dev/jobs/surf-screenshotter-1608595200
+  uid: 1bc1e8a1-dc2e-4404-a16e-81c8c099aebc
+  resourceVersion: '18200105'
+  creationTimestamp: '2020-12-22T00:00:01Z'
+  labels:
+    controller-uid: 1bc1e8a1-dc2e-4404-a16e-81c8c099aebc
+    job-name: surf-screenshotter-1608595200
+  ownerReferences:
+    - apiVersion: batch/v1beta1
+      kind: CronJob
+      name: surf-screenshotter
+      uid: 8e726704-73e3-4232-b074-cb5ab3f16f2e
+      controller: true
+      blockOwnerDeletion: true
+  managedFields:
+    - manager: k3s
+      operation: Update
+      apiVersion: batch/v1
+      time: '2020-12-22T00:03:04Z'
+      fieldsType: FieldsV1
+      fieldsV1:
+        'f:metadata':
+          'f:ownerReferences':
+            .: {}
+            'k:{"uid":"8e726704-73e3-4232-b074-cb5ab3f16f2e"}':
+              .: {}
+              'f:apiVersion': {}
+              'f:blockOwnerDeletion': {}
+              'f:controller': {}
+              'f:kind': {}
+              'f:name': {}
+              'f:uid': {}
+        'f:spec':
+          'f:backoffLimit': {}
+          'f:completions': {}
+          'f:parallelism': {}
+          'f:template':
+            'f:spec':
+              'f:containers':
+                'k:{"name":"surf-screenshotter-worker"}':
+                  .: {}
+                  'f:image': {}
+                  'f:imagePullPolicy': {}
+                  'f:name': {}
+                  'f:resources': {}
+                  'f:securityContext':
+                    .: {}
+                    'f:capabilities':
+                      .: {}
+                      'f:add': {}
+                  'f:terminationMessagePath': {}
+                  'f:terminationMessagePolicy': {}
+                  'f:volumeMounts':
+                    .: {}
+                    'k:{"mountPath":"/data"}':
+                      .: {}
+                      'f:mountPath': {}
+                      'f:name': {}
+                    'k:{"mountPath":"/mnt/data"}':
+                      .: {}
+                      'f:mountPath': {}
+                      'f:name': {}
+                      'f:readOnly': {}
+              'f:dnsPolicy': {}
+              'f:restartPolicy': {}
+              'f:schedulerName': {}
+              'f:securityContext': {}
+              'f:terminationGracePeriodSeconds': {}
+              'f:volumes':
+                .: {}
+                'k:{"name":"configmap-data"}':
+                  .: {}
+                  'f:configMap':
+                    .: {}
+                    'f:defaultMode': {}
+                    'f:items': {}
+                    'f:name': {}
+                  'f:name': {}
+                'k:{"name":"data"}':
+                  .: {}
+                  'f:name': {}
+                  'f:persistentVolumeClaim':
+                    .: {}
+                    'f:claimName': {}
+        'f:status':
+          'f:conditions':
+            .: {}
+            'k:{"type":"Failed"}':
+              .: {}
+              'f:lastProbeTime': {}
+              'f:lastTransitionTime': {}
+              'f:message': {}
+              'f:reason': {}
+              'f:status': {}
+              'f:type': {}
+          'f:failed': {}
+          'f:startTime': {}
+spec:
+  parallelism: 1
+  completions: 1
+  backoffLimit: 2
+  selector:
+    matchLabels:
+      controller-uid: 1bc1e8a1-dc2e-4404-a16e-81c8c099aebc
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        controller-uid: 1bc1e8a1-dc2e-4404-a16e-81c8c099aebc
+        job-name: surf-screenshotter-1608595200
+    spec:
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: surf-screenshotter
+        - name: configmap-data
+          configMap:
+            name: surf-screenshotter
+            items:
+              - key: data.txt
+                path: data.txt
+            defaultMode: 420
+      containers:
+        - name: surf-screenshotter-worker
+          image: 'tons/surf-screenshotter-worker:0.7'
+          resources: {}
+          volumeMounts:
+            - name: data
+              mountPath: /data
+            - name: configmap-data
+              readOnly: true
+              mountPath: /mnt/data
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          imagePullPolicy: IfNotPresent
+          securityContext:
+            capabilities:
+              add:
+                - SYS_ADMIN
+      restartPolicy: Never
+      terminationGracePeriodSeconds: 30
+      dnsPolicy: ClusterFirst
+      securityContext: {}
+      schedulerName: default-scheduler
+status:
+  conditions:
+    - type: Failed
+      status: 'True'
+      lastProbeTime: '2020-12-22T00:03:04Z'
+      lastTransitionTime: '2020-12-22T00:03:04Z'
+      reason: BackoffLimitExceeded
+      message: Job has reached the specified backoff limit
+  startTime: '2020-12-22T00:00:01Z'
+  failed: 3

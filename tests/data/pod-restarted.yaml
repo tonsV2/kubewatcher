@@ -1,0 +1,230 @@
+kind: Pod
+apiVersion: v1
+metadata:
+  name: kubewatcher-7f75c748fb-dlrlc
+  generateName: kubewatcher-7f75c748fb-
+  namespace: kubewatcher
+  selfLink: /api/v1/namespaces/kubewatcher/pods/kubewatcher-7f75c748fb-dlrlc
+  uid: eee86579-4220-4ebe-902b-5b4f162df218
+  resourceVersion: '2185130'
+  creationTimestamp: '2021-01-07T08:19:34Z'
+  labels:
+    app.kubernetes.io/instance: kubewatcher
+    app.kubernetes.io/name: kubewatcher
+    pod-template-hash: 7f75c748fb
+  ownerReferences:
+    - apiVersion: apps/v1
+      kind: ReplicaSet
+      name: kubewatcher-7f75c748fb
+      uid: 5436bb2b-9498-4e5d-9903-36ef199a11a0
+      controller: true
+      blockOwnerDeletion: true
+  managedFields:
+    - manager: k3s
+      operation: Update
+      apiVersion: v1
+      time: '2021-01-07T08:24:26Z'
+      fieldsType: FieldsV1
+      fieldsV1:
+        'f:metadata':
+          'f:generateName': {}
+          'f:labels':
+            .: {}
+            'f:app.kubernetes.io/instance': {}
+            'f:app.kubernetes.io/name': {}
+            'f:pod-template-hash': {}
+          'f:ownerReferences':
+            .: {}
+            'k:{"uid":"5436bb2b-9498-4e5d-9903-36ef199a11a0"}':
+              .: {}
+              'f:apiVersion': {}
+              'f:blockOwnerDeletion': {}
+              'f:controller': {}
+              'f:kind': {}
+              'f:name': {}
+              'f:uid': {}
+        'f:spec':
+          'f:containers':
+            'k:{"name":"kubewatcher"}':
+              .: {}
+              'f:args': {}
+              'f:env':
+                .: {}
+                'k:{"name":"SLACK_HANDLER_TOKEN"}':
+                  .: {}
+                  'f:name': {}
+                  'f:valueFrom':
+                    .: {}
+                    'f:secretKeyRef':
+                      .: {}
+                      'f:key': {}
+                      'f:name': {}
+              'f:image': {}
+              'f:imagePullPolicy': {}
+              'f:name': {}
+              'f:resources': {}
+              'f:securityContext': {}
+              'f:terminationMessagePath': {}
+              'f:terminationMessagePolicy': {}
+              'f:volumeMounts':
+                .: {}
+                'k:{"mountPath":"/config/config.yaml"}':
+                  .: {}
+                  'f:mountPath': {}
+                  'f:name': {}
+                  'f:readOnly': {}
+                  'f:subPath': {}
+          'f:dnsPolicy': {}
+          'f:enableServiceLinks': {}
+          'f:restartPolicy': {}
+          'f:schedulerName': {}
+          'f:securityContext': {}
+          'f:serviceAccount': {}
+          'f:serviceAccountName': {}
+          'f:terminationGracePeriodSeconds': {}
+          'f:volumes':
+            .: {}
+            'k:{"name":"config"}':
+              .: {}
+              'f:configMap':
+                .: {}
+                'f:defaultMode': {}
+                'f:items': {}
+                'f:name': {}
+              'f:name': {}
+        'f:status':
+          'f:conditions':
+            .: {}
+            'k:{"type":"ContainersReady"}':
+              .: {}
+              'f:lastProbeTime': {}
+              'f:lastTransitionTime': {}
+              'f:status': {}
+              'f:type': {}
+            'k:{"type":"Initialized"}':
+              .: {}
+              'f:lastProbeTime': {}
+              'f:lastTransitionTime': {}
+              'f:status': {}
+              'f:type': {}
+            'k:{"type":"PodScheduled"}':
+              .: {}
+              'f:lastProbeTime': {}
+              'f:lastTransitionTime': {}
+              'f:message': {}
+              'f:reason': {}
+              'f:status': {}
+              'f:type': {}
+            'k:{"type":"Ready"}':
+              .: {}
+              'f:lastProbeTime': {}
+              'f:lastTransitionTime': {}
+              'f:status': {}
+              'f:type': {}
+          'f:containerStatuses': {}
+          'f:hostIP': {}
+          'f:phase': {}
+          'f:podIP': {}
+          'f:podIPs':
+            .: {}
+            'k:{"ip":"10.42.0.151"}':
+              .: {}
+              'f:ip': {}
+          'f:startTime': {}
+spec:
+  volumes:
+    - name: config
+      configMap:
+        name: kubewatcher
+        items:
+          - key: config.yaml
+            path: config.yaml
+        defaultMode: 420
+    - name: kubewatcher-token-l2xxz
+      secret:
+        secretName: kubewatcher-token-l2xxz
+        defaultMode: 420
+  containers:
+    - name: kubewatcher
+      image: 'tons/kubewatcher:1.6.0'
+      args:
+        - '-f'
+        - /config/config.yaml
+      env:
+        - name: SLACK_HANDLER_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: kubewatcher
+              key: SLACK_HANDLER_TOKEN
+      resources: {}
+      volumeMounts:
+        - name: config
+          readOnly: true
+          mountPath: /config/config.yaml
+          subPath: config.yaml
+        - name: kubewatcher-token-l2xxz
+          readOnly: true
+          mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      imagePullPolicy: IfNotPresent
+      securityContext: {}
+  restartPolicy: Always
+  terminationGracePeriodSeconds: 30
+  dnsPolicy: ClusterFirst
+  serviceAccountName: kubewatcher
+  serviceAccount: kubewatcher
+  nodeName: nuc
+  securityContext: {}
+  schedulerName: default-scheduler
+  tolerations:
+    - key: node.kubernetes.io/not-ready
+      operator: Exists
+      effect: NoExecute
+      tolerationSeconds: 300
+    - key: node.kubernetes.io/unreachable
+      operator: Exists
+      effect: NoExecute
+      tolerationSeconds: 300
+  priority: 0
+  enableServiceLinks: true
+  preemptionPolicy: PreemptLowerPriority
+status:
+  phase: Running
+  conditions:
+    - type: Initialized
+      status: 'True'
+      lastProbeTime: null
+      lastTransitionTime: '2021-01-07T08:24:20Z'
+    - type: Ready
+      status: 'True'
+      lastProbeTime: null
+      lastTransitionTime: '2021-01-07T08:24:26Z'
+    - type: ContainersReady
+      status: 'True'
+      lastProbeTime: null
+      lastTransitionTime: '2021-01-07T08:24:26Z'
+    - type: PodScheduled
+      status: 'True'
+      lastProbeTime: null
+      lastTransitionTime: '2021-01-07T08:24:20Z'
+  hostIP: 192.168.0.100
+  podIP: 10.42.0.151
+  podIPs:
+    - ip: 10.42.0.151
+  startTime: '2021-01-07T08:24:20Z'
+  containerStatuses:
+    - name: kubewatcher
+      state:
+        running:
+          startedAt: '2021-01-07T08:24:26Z'
+      lastState: {}
+      ready: true
+      restartCount: 11
+      image: 'docker.io/tons/kubewatcher:1.6.0'
+      imageID: >-
+        docker.io/tons/kubewatcher@sha256:3782f655d3fe91b331ef932ef1b25bc432afe596ab1343df913d5e6adc720c56
+      containerID: >-
+        containerd://ba2b0279193f47bd639ec27b1558fb5d65a868e3bfb34fe604e0c1ff680f61ac
+      started: true
+  qosClass: BestEffort
