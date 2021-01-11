@@ -27,6 +27,9 @@ handlers:
 #  SLACK_HANDLER_TOKEN: "xoxb-blabla..."
 #  TELEGRAM_HANDLER_API_TOKEN: 1234...
 #  TELEGRAM_HANDLER_CHAT_ID: 4321...
+#  SMTP_HANDLER_FROM: from@email.com
+#  SMTP_HANDLER_PASSWORD: password
+#  SMTP_HANDLER_TO: to@email.com
 
 filters:
   - kind: Node
