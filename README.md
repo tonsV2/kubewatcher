@@ -6,6 +6,8 @@ Simple and highly configurable Kubernetes monitor
 
 The idea is that you define a filter and if there's a match you'll get a message via Slack, Telegram or mail.
 
+Out of the box you'll get notified about nodes with disk, memory or PID pressure. Deployments configured with nonexistent Docker images, failing Jobs and any events of type warning.
+
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 - [Kube Watcher](#kube-watcher)
@@ -49,18 +51,13 @@ Currently Slack, Telegram and mail handlers are supported. Let me know if your f
  - Uncomment the relevant handlers in [config.yaml](config.yaml)
  - Create an .env file. Possible use [.env.example](.env.example) as a starting point
 
-# Install
-```bash
-pip install kubewatcher
-```
-
 # Run
 By default `~/.kube/config` and your current context will be used, but config file location and context can be specified using command line arguments. Please see `kubewatcher --help` for details.
 
 ## Natively
 By default, `kubewatcher` will look for a config file (config.yaml) in the current directory. Different locations, and names, can be specified using the `-f` argument.
 ```bash
-kubewatcher
+kubewatcher watch
 ```
 
 ## Docker
@@ -108,6 +105,12 @@ python -m twine upload dist/*
 ```
 
 # Changelog
+## Version 1.7.0
+ - Complete rewrite of the main application structure. The original functional approach is scrapped in favor of a more OO architecture
+ - Add testing of filters from the command line
+ - Add filters for various node related issues
+ - Use yamlpath rather than custom implementation
+
 ## Version 1.6.0
  - Telegram handler
  - Initial CI
