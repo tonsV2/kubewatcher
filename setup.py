@@ -16,7 +16,7 @@ setup(
         'yamlpath~=3.4.0',
     ],
     entry_points={
-        'console_scripts': ['kubewatcher=kubewatcher.kubewatcher:cli']
+        'console_scripts': ['kubewatcher=kubewatcher.cli:cli']
     },
     long_description=description,
 )

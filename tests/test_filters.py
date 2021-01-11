@@ -1,31 +1,35 @@
 from unittest import TestCase
 
-from envyaml import EnvYAML
+from ruamel import yaml
 
-from kubewatcher.kubewatcher import read_configs
-from kubewatcher.kubewatcher import trigger
+from kubewatcher.cli import parse_config_files
+from kubewatcher.kubewatcher import KubeWatcher
 
 
 class Test(TestCase):
     def test_filters(self):
         config_file = "./config.yaml"
-        config = read_configs([config_file])
+        config = parse_config_files([config_file])
 
-        for f in config['filters']:
-            if 'tests' in f:
-                for test in f['tests']:
-                    data = EnvYAML(test).export()
-                    triggered = trigger(f, data)
+        filters = KubeWatcher(config).filters
+
+        for f in filters:
+            for test in f.tests:
+                with open(test, 'r') as stream:
+                    data = yaml.safe_load(stream)
+                    triggered = f.trigger(data)
                     if not triggered:
-                        print(f)
+                        print(yaml.dump(f))
                     self.assertTrue(triggered)
 
     def test_ensure_all_filters_are_tested(self):
         config_file = "./config.yaml"
-        config = read_configs([config_file])
+        config = parse_config_files([config_file])
 
-        for f in config['filters']:
-            missing_tests = 'tests' not in f
+        filters = KubeWatcher(config).filters
+
+        for f in filters:
+            missing_tests = not f.tests
             if missing_tests:
-                print(f)
+                print(yaml.dump(f))
             self.assertFalse(missing_tests)

@@ -1,96 +1,123 @@
-from unittest import TestCase, mock
+from unittest import TestCase
 
-from kubewatcher.kubewatcher import trigger
+from kubewatcher.filter import Filter
 
 
 class Test(TestCase):
-    def test_trigger__return_false_if_api_version_does_not_match_returns_true(self):
-        with mock.patch("kubewatcher.kubewatcher.api_version_does_not_match") as api_version_does_not_match:
-            api_version_does_not_match.return_value = True
+    def test_trigger__return_false_if_api_version_does_not_match(self):
+        raw_object = {
+            "apiVersion": "123"
+        }
 
-            actual_return_value = trigger({}, {})
+        raw_filter = {
+            "kind": "kind",
+            "apiVersion": "321",
+            "conditions": [],
+            "message": {},
+            "tests": []
+        }
 
-            self.assertFalse(actual_return_value)
+        f = Filter(raw_filter)
 
-    def test_trigger__return_false_if_namespace_ignored_returns_true(self):
-        pod_filter = {
-            'namespaces': {}
+        actual_return_value = f.trigger(raw_object)
+
+        self.assertFalse(actual_return_value)
+
+    def test_trigger__return_false_if_namespace_ignored(self):
+        raw_filter = {
+            "kind": "kind",
+            "conditions": [],
+            "message": {},
+            "tests": [],
+            'namespaces': {
+                'ignore': ['namespace']
+            }
         }
 
         raw_object = {
+            "apiVersion": "123",
             "metadata": {
                 "namespace": "namespace"
             }
         }
 
-        with mock.patch("kubewatcher.kubewatcher.namespace_ignored") as namespace_ignored:
-            namespace_ignored.return_value = True
+        f = Filter(raw_filter)
 
-            actual_return_value = trigger(pod_filter, raw_object)
+        actual_return_value = f.trigger(raw_object)
 
-            self.assertFalse(actual_return_value)
+        self.assertFalse(actual_return_value)
 
     def test_trigger__return_false_if_namespace_not_included_returns_true(self):
-        pod_filter = {
-            'namespaces': {}
+        raw_filter = {
+            "kind": "kind",
+            "conditions": [],
+            "message": {},
+            "tests": [],
+            'namespaces': {
+                'include': []
+            }
         }
 
         raw_object = {
+            "apiVersion": "123",
             "metadata": {
                 "namespace": "namespace"
             }
         }
 
-        with mock.patch("kubewatcher.kubewatcher.namespace_not_included") as namespace_not_included:
-            namespace_not_included.return_value = True
+        f = Filter(raw_filter)
+        actual_return_value = f.trigger(raw_object)
 
-            actual_return_value = trigger(pod_filter, raw_object)
-
-            self.assertFalse(actual_return_value)
+        self.assertFalse(actual_return_value)
 
     def test_trigger__true_if_all_conditions_are_met(self):
-        pod_filter = {
+        raw_filter = {
+            "kind": "kind",
             "conditions": [
-                "condition0",
-                "condition1"
-            ]
+                "[condition0==true]",
+                "[condition1==true]"
+            ],
+            "message": {},
+            "tests": []
         }
 
         raw_object = {
+            "apiVersion": "123",
             "metadata": {
                 "namespace": "namespace"
-            }
+            },
+            "condition0": "true",
+            "condition1": "true"
         }
 
-        with mock.patch("kubewatcher.kubewatcher.evaluate_path", new=custom_evaluate_path):
-            actual_return_value = trigger(pod_filter, raw_object)
+        f = Filter(raw_filter)
 
-            self.assertTrue(actual_return_value)
+        actual_return_value = f.trigger(raw_object)
+
+        self.assertTrue(actual_return_value)
 
     def test_trigger__false_if_a_condition_is_not_met(self):
-        pod_filter = {
+        raw_filter = {
+            "kind": "kind",
             "conditions": [
-                "condition0",
-                "condition2"
-            ]
+                "[condition0==true]",
+                "[condition1==true]"
+            ],
+            "message": {},
+            "tests": []
         }
 
         raw_object = {
+            "apiVersion": "123",
             "metadata": {
                 "namespace": "namespace"
-            }
+            },
+            "condition0": "true",
+            "condition1": "false"
         }
 
-        with mock.patch("kubewatcher.kubewatcher.evaluate_path", new=custom_evaluate_path):
-            actual_return_value = trigger(pod_filter, raw_object)
+        f = Filter(raw_filter)
 
-            self.assertFalse(actual_return_value)
+        actual_return_value = f.trigger(raw_object)
 
-
-def custom_evaluate_path(raw_object, condition):
-    if condition == "condition0":
-        return True
-    if condition == "condition1":
-        return True
-    if condition == "condition2":
-        return False
+        self.assertFalse(actual_return_value)

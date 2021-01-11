@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-from kubewatcher.kubewatcher import generate_message
+from kubewatcher.filter import Filter
 
 
 class Test(TestCase):
@@ -13,6 +13,8 @@ class Test(TestCase):
                 "RESTART_COUNT": "status.containerStatuses.*.restartCount"
             }
         }
+
+        f = Filter({"kind": "kind", "conditions": [], "message": message_data, "tests": []})
 
         raw_object = {
             "metadata": {
@@ -28,7 +30,7 @@ class Test(TestCase):
             }
         }
 
-        actual_message = generate_message(message_data, raw_object)
+        actual_message = f.generate_message(raw_object)
 
         expected_message = "Pod: test-name in test-namespace has restarted 123 times"
         self.assertEqual(expected_message, actual_message)
