@@ -83,8 +83,8 @@ helm package --sign --key 'helm' --keyring ~/.gnupg/pubring.gpg helm/
 ### Push
 ```bash
 curl --user "$CHARTMUSEUM_AUTH_USER:$CHARTMUSEUM_AUTH_PASS" \
-            -F "chart=@kubewatcher-1.1.0.tgz" \
-            -F "prov=@kubewatcher-1.1.0.tgz.prov" \
+            -F "chart=@kubewatcher-1.2.0.tgz" \
+            -F "prov=@kubewatcher-1.2.0.tgz.prov" \
             https://helm-charts.fitfit.dk/api/charts
 ```
 

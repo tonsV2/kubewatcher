@@ -31,7 +31,12 @@ spec:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: {{ .Values.image.repository | quote }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-          args: [ "-f", "/config/config.yaml" ]
+          args:
+            - "watch"
+            - "-f"
+            - "/config/filters.yaml"
+            - "-f"
+            - "/config/handlers.yaml"
           env:
           {{- range $key, $value := .Values.env }}
             - name: {{ $key }}
@@ -41,19 +46,29 @@ spec:
                   name: {{ $fullname }}
           {{- end }}
           volumeMounts:
-            - name: config
-              mountPath: /config/config.yaml
-              subPath: config.yaml
+            - name: filters
+              mountPath: /config/filters.yaml
+              subPath: filters.yaml
+              readOnly: true
+            - name: handlers
+              mountPath: /config/handlers.yaml
+              subPath: handlers.yaml
               readOnly: true
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       volumes:
-        - name: config
+        - name: filters
           configMap:
             name: {{ $fullname }}
             items:
-              - key: config.yaml
-                path: config.yaml
+              - key: filters.yaml
+                path: filters.yaml
+        - name: handlers
+          configMap:
+            name: {{ $fullname }}
+            items:
+              - key: handlers.yaml
+                path: handlers.yaml
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

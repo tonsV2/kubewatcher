@@ -5,5 +5,9 @@ metadata:
   labels:
   {{- include "kubewatcher.labels" . | nindent 4 }}
 data:
-  config.yaml: |-
-    {{- toYaml .Values.config | nindent 4 }}
+  handlers.yaml: |-
+    handlers:
+      {{- toYaml .Values.handlers | nindent 6 }}
+  filters.yaml: |-
+    filters:
+      {{- toYaml .Values.filters | nindent 6 }}

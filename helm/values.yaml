@@ -1,69 +1,25 @@
 # Default values for kubewatcher.
-# This is a YAML-formatted file.
-# Declare variables to be passed into your templates.
 
-config:
-  filters:
-    - kind: Pod
-      apiVersion: v1
-#    namespaces:
-#      include:
-#        - surf-screenshotter-dev
-#      ignore:
-#        - heptio-sonobuoy
-      conditions:
-        - status.containerStatuses[*].state.terminated.exitCode != 0
-      message:
-        template: "Pod: {NAME} in {NAMESPACE} terminated with nonzero exit code"
-        attributes:
-          NAME: metadata.name
-          NAMESPACE: metadata.namespace
+handlers:
+  log: {}
+#  telegram:
+#    token: $TELEGRAM_HANDLER_API_TOKEN
+#    chatId: $TELEGRAM_HANDLER_CHAT_ID
+#  slack:
+#    channel: "${SLACK_HANDLER_CHANNEL}"
+#    token: $SLACK_HANDLER_TOKEN
+#    username: KubeWatcher-dev
+#    icon: https://github.com/tonsV2/kubewatcher/raw/master/icons/icon.png
+#  smtp:
+#    from: $SMTP_HANDLER_FROM
+#    password: $SMTP_HANDLER_PASSWORD
+#    host: smtp.gmail.com
+#    port: 587
+#    tls: true
+#    to:
+#      - $SMTP_HANDLER_TO
 
-    - kind: Pod
-      apiVersion: v1
-      conditions:
-        - status.containerStatuses[*].restartCount > 10
-      message:
-        template: "Pod: {NAME} in {NAMESPACE} has restarted {RESTART_COUNT} times"
-        attributes:
-          NAME: metadata.name
-          NAMESPACE: metadata.namespace
-          RESTART_COUNT: status.containerStatuses[*].restartCount
-
-    - kind: Event
-      apiVersion: v1
-      conditions:
-        - type == Warning
-#      - reason != ImageGCFailed
-#      - reason != FreeDiskSpaceFailed
-      message:
-        template: "Event: Warning {NAME} in {NAMESPACE} (reason: {REASON}, message: {MESSAGE})"
-        attributes:
-          NAME: metadata.name
-          NAMESPACE: metadata.namespace
-          REASON: reason
-          MESSAGE: message
-
-    - kind: Job
-      apiVersion: batch/v1
-      conditions:
-        - status.conditions[*].type == Failed
-      message:
-        template: "Job: {NAME} in {NAMESPACE} failed (reason: {REASON}, message: {MESSAGE})"
-        attributes:
-          NAME: metadata.name
-          NAMESPACE: metadata.namespace
-          REASON: status.conditions[*].reason
-          MESSAGE: status.conditions[*].message
-
-#  handlers:
-#    slack:
-#      channel: "${SLACK_HANDLER_CHANNEL}"
-#      token: $SLACK_HANDLER_TOKEN
-#    telegram:
-#      token: $TELEGRAM_HANDLER_API_TOKEN
-#      chatId: $TELEGRAM_HANDLER_CHAT_ID
-
+# Values declared under env will be converted to properties of a secret and exported as environment variables
 # TODO: For some reason the SLACK_HANDLER_CHANNEL variable won't be interpolated if the value begins with '#'
 #  The current solution is simply to specify the channel without the '#' prefix
 #env:
@@ -72,10 +28,100 @@ config:
 #  TELEGRAM_HANDLER_API_TOKEN: 1234...
 #  TELEGRAM_HANDLER_CHAT_ID: 4321...
 
+filters:
+  - kind: Node
+    apiVersion: v1
+    conditions:
+      - status.conditions[type == DiskPressure][status == True]
+    message:
+      template: "Node: {NAME} has disk pressure"
+      attributes:
+        NAME: metadata.name
+    tests: [ tests/data/node-DiskPressure.yaml ]
+
+  - kind: Node
+    apiVersion: v1
+    conditions:
+      - status.conditions[type == MemoryPressure][status == True]
+    message:
+      template: "Node: {NAME} has memory pressure"
+      attributes:
+        NAME: metadata.name
+    tests: [ tests/data/node-MemoryPressure.yaml ]
+
+  - kind: Node
+    apiVersion: v1
+    conditions:
+      - status.conditions[type == PIDPressure][status == True]
+    message:
+      template: "Node: {NAME} has PID pressure"
+      attributes:
+        NAME: metadata.name
+    tests: [ tests/data/node-PIDPressure.yaml ]
+
+  - kind: Pod
+    apiVersion: v1
+    #    namespaces:
+    #      include:
+    #        - surf-screenshotter-dev
+    #      ignore:
+    #        - heptio-sonobuoy
+    conditions:
+      - status.containerStatuses.*.state.terminated[exitCode != 0]
+    message:
+      template: "Pod: {NAME} in {NAMESPACE} terminated with nonzero exit code"
+      attributes:
+        NAME: metadata.name
+        NAMESPACE: metadata.namespace
+    tests:
+      - tests/data/pod-non-zero-exit-code.yaml
+
+  - kind: Pod
+    apiVersion: v1
+    conditions:
+      - status.containerStatuses[restartCount > 10]
+    message:
+      template: "Pod: {NAME} in {NAMESPACE} has restarted {RESTART_COUNT} times"
+      attributes:
+        NAME: metadata.name
+        NAMESPACE: metadata.namespace
+        RESTART_COUNT: status.containerStatuses[restartCount > 10].restartCount
+    tests: [ tests/data/pod-restarted.yaml ]
+
+  - kind: Event
+    apiVersion: v1
+    conditions:
+      - '[type == Warning]'
+    #      - [reason != ImageGCFailed]
+    #      - [reason != FreeDiskSpaceFailed]
+    message:
+      template: "Event: Warning {NAME} in {NAMESPACE} (reason: {REASON}, message: {MESSAGE})"
+      attributes:
+        NAME: metadata.name
+        NAMESPACE: metadata.namespace
+        REASON: reason
+        MESSAGE: message
+    tests:
+      - tests/data/event-fail-BackOff.yaml
+      - tests/data/event-warning.yaml
+
+  - kind: Job
+    apiVersion: batch/v1
+    conditions:
+      - status.conditions[type == Failed]
+    message:
+      template: "Job: {NAME} in {NAMESPACE} failed (reason: {REASON}, message: {MESSAGE})"
+      attributes:
+        NAME: metadata.name
+        NAMESPACE: metadata.namespace
+        REASON: status.conditions[type == Failed].reason
+        MESSAGE: status.conditions[type == Failed].message
+    tests: [ tests/data/job-failed.yaml ]
+
 skipRole: false
 
 image:
-  repository: tons/kubewatcher:1.6.0
+  repository: tons/kubewatcher:1.7.1
   pullPolicy: IfNotPresent
 
 imagePullSecrets: []
