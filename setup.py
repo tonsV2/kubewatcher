@@ -6,7 +6,7 @@ setup(
     name='kubewatcher',
     version='1.6.0',
     description=description,
-    python_requires='>=3.8',
+    python_requires='>=3.7',
     packages=find_packages(),
     install_requires=[
         'kubernetes~=12.0.1',
