@@ -26,6 +26,7 @@ Out of the box you'll get notified about nodes with disk, memory or PID pressure
 - [Run test suite](#run-test-suite)
 - [Release on PyPI](#release-on-pypi)
 - [Changelog](#changelog)
+  - [Version 1.7.0](#version-170)
   - [Version 1.6.0](#version-160)
   - [Version 1.5.0](#version-150)
   - [Version 1.4.0](#version-140)
