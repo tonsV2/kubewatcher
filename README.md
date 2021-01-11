@@ -69,8 +69,16 @@ docker-compose up
 
 ## Helm
 ### Install
-Please see [values.yaml](helm/values.yaml) for an example configuration
+Please see [values.yaml](helm/values.yaml) for an example configuration.
 
+For most use cases it's probably only necessary to enable the relevant `handler` and add your personal credentials under `env`.
+
+Add the repository
+```bash
+helm repo add tons https://helm-charts.fitfit.dk 
+```
+
+Install/upgrade
 ```bash
 helm upgrade --install kubewatcher --namespace kubewatcher tons/kubewatcher --values values.yaml
 ```
