@@ -1,7 +1,6 @@
 import logging
 import os
 from collections import defaultdict
-from typing import List
 
 import kubernetes as k8s
 from envyaml import EnvYAML
@@ -18,7 +17,7 @@ class KubeWatcher(object):
     def __init__(self, config: {}):
         self.config = config
 
-        self.filters: List[Filter] = [Filter(f) for f in self.config['filters']]
+        self.filters: [Filter] = [Filter(f) for f in self.config['filters']]
         self.filters_by_kind = defaultdict(list)
         for f in self.filters:
             self.filters_by_kind[f.kind].append(f)
