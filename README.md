@@ -26,6 +26,7 @@ Out of the box you'll get notified about nodes with disk, memory or PID pressure
 - [Run test suite](#run-test-suite)
 - [Release on PyPI](#release-on-pypi)
 - [Changelog](#changelog)
+  - [Version 1.7.1](#version-171)
   - [Version 1.7.0](#version-170)
   - [Version 1.6.0](#version-160)
   - [Version 1.5.0](#version-150)
@@ -106,6 +107,10 @@ python -m twine upload dist/*
 ```
 
 # Changelog
+## Version 1.7.1
+ - Make filters optional so configuration can be separated into several files
+ - Make tests optional since they might not be included when the application is deployed on Kubernetes or similar
+
 ## Version 1.7.0
  - Complete rewrite of the main application structure. The original functional approach is scrapped in favor of a more OO architecture
  - Add testing of filters from the command line
