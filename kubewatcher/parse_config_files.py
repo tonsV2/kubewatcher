@@ -16,7 +16,8 @@ def parse_config_files(config_files: []) -> {}:
 
     for config_file in config_files:
         yaml = EnvYAML(config_file)
-        config["filters"] += yaml["filters"]
+        if 'filters' in yaml:
+            config["filters"] += yaml["filters"]
         if 'handlers' in yaml:
             config["handlers"] = {**config["handlers"], **yaml["handlers"]}
 
