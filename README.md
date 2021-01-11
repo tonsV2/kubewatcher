@@ -106,6 +106,10 @@ python -m twine upload dist/*
 ```
 
 # Changelog
+## Version 1.7.1
+ - Make filters optional so configuration can be separated into several files
+ - Make tests optional since they might not be included when the application is deployed on Kubernetes or similar
+
 ## Version 1.7.0
  - Complete rewrite of the main application structure. The original functional approach is scrapped in favor of a more OO architecture
  - Add testing of filters from the command line
