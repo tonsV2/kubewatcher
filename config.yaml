@@ -26,7 +26,27 @@ filters:
       template: "Node: {NAME} has disk pressure"
       attributes:
         NAME: metadata.name
-    tests: [ tests/data/node-diskpressure.yaml ]
+    tests: [ tests/data/node-DiskPressure.yaml ]
+
+  - kind: Node
+    apiVersion: v1
+    conditions:
+      - status.conditions[type == MemoryPressure][status == True]
+    message:
+      template: "Node: {NAME} has memory pressure"
+      attributes:
+        NAME: metadata.name
+    tests: [ tests/data/node-MemoryPressure.yaml ]
+
+  - kind: Node
+    apiVersion: v1
+    conditions:
+      - status.conditions[type == PIDPressure][status == True]
+    message:
+      template: "Node: {NAME} has PID pressure"
+      attributes:
+        NAME: metadata.name
+    tests: [ tests/data/node-PIDPressure.yaml ]
 
   - kind: Pod
     apiVersion: v1

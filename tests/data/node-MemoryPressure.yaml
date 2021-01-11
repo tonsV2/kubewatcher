@@ -1,0 +1,319 @@
+kind: Node
+apiVersion: v1
+metadata:
+  name: nuc
+  selfLink: /api/v1/nodes/nuc
+  uid: be7de263-2d0f-4e46-bb66-3a0291d03b75
+  resourceVersion: '2180992'
+  creationTimestamp: '2020-12-24T06:13:31Z'
+  labels:
+    beta.kubernetes.io/arch: amd64
+    beta.kubernetes.io/instance-type: k3s
+    beta.kubernetes.io/os: linux
+    k3s.io/hostname: nuc
+    k3s.io/internal-ip: 192.168.0.100
+    kubernetes.io/arch: amd64
+    kubernetes.io/hostname: nuc
+    kubernetes.io/os: linux
+    node-role.kubernetes.io/master: 'true'
+    node.kubernetes.io/instance-type: k3s
+  annotations:
+    flannel.alpha.coreos.com/backend-data: '{"VtepMAC":"02:4a:4f:c4:d0:25"}'
+    flannel.alpha.coreos.com/backend-type: vxlan
+    flannel.alpha.coreos.com/kube-subnet-manager: 'true'
+    flannel.alpha.coreos.com/public-ip: 192.168.0.100
+    k3s.io/node-args: '["server"]'
+    k3s.io/node-config-hash: YQUWTDZQW5X5N3TCQFORF2PABT2DSBR7PKNKWRBMPKHS26HXPUCQ====
+    k3s.io/node-env: >-
+      {"K3S_DATA_DIR":"/var/lib/rancher/k3s/data/b9574be94e4edbdbb93a39a2cb1f4e4df3ba699171a8b86863d1e8c421c91f63"}
+    node.alpha.kubernetes.io/ttl: '0'
+    volumes.kubernetes.io/controller-managed-attach-detach: 'true'
+  finalizers:
+    - wrangler.cattle.io/node
+  managedFields:
+    - manager: k3s
+      operation: Update
+      apiVersion: v1
+      time: '2021-01-07T07:47:02Z'
+      fieldsType: FieldsV1
+      fieldsV1:
+        'f:metadata':
+          'f:annotations':
+            .: {}
+            'f:flannel.alpha.coreos.com/backend-data': {}
+            'f:flannel.alpha.coreos.com/backend-type': {}
+            'f:flannel.alpha.coreos.com/kube-subnet-manager': {}
+            'f:flannel.alpha.coreos.com/public-ip': {}
+            'f:k3s.io/node-args': {}
+            'f:k3s.io/node-config-hash': {}
+            'f:k3s.io/node-env': {}
+            'f:node.alpha.kubernetes.io/ttl': {}
+            'f:volumes.kubernetes.io/controller-managed-attach-detach': {}
+          'f:finalizers':
+            .: {}
+            'v:"wrangler.cattle.io/node"': {}
+          'f:labels':
+            .: {}
+            'f:beta.kubernetes.io/arch': {}
+            'f:beta.kubernetes.io/instance-type': {}
+            'f:beta.kubernetes.io/os': {}
+            'f:k3s.io/hostname': {}
+            'f:k3s.io/internal-ip': {}
+            'f:kubernetes.io/arch': {}
+            'f:kubernetes.io/hostname': {}
+            'f:kubernetes.io/os': {}
+            'f:node-role.kubernetes.io/master': {}
+            'f:node.kubernetes.io/instance-type': {}
+        'f:spec':
+          'f:podCIDR': {}
+          'f:podCIDRs':
+            .: {}
+            'v:"10.42.0.0/24"': {}
+          'f:providerID': {}
+          'f:taints': {}
+        'f:status':
+          'f:addresses':
+            .: {}
+            'k:{"type":"Hostname"}':
+              .: {}
+              'f:address': {}
+              'f:type': {}
+            'k:{"type":"InternalIP"}':
+              .: {}
+              'f:address': {}
+              'f:type': {}
+          'f:allocatable':
+            .: {}
+            'f:cpu': {}
+            'f:ephemeral-storage': {}
+            'f:hugepages-1Gi': {}
+            'f:hugepages-2Mi': {}
+            'f:memory': {}
+            'f:pods': {}
+          'f:capacity':
+            .: {}
+            'f:cpu': {}
+            'f:ephemeral-storage': {}
+            'f:hugepages-1Gi': {}
+            'f:hugepages-2Mi': {}
+            'f:memory': {}
+            'f:pods': {}
+          'f:conditions':
+            .: {}
+            'k:{"type":"DiskPressure"}':
+              .: {}
+              'f:lastHeartbeatTime': {}
+              'f:lastTransitionTime': {}
+              'f:message': {}
+              'f:reason': {}
+              'f:status': {}
+              'f:type': {}
+            'k:{"type":"MemoryPressure"}':
+              .: {}
+              'f:lastHeartbeatTime': {}
+              'f:lastTransitionTime': {}
+              'f:message': {}
+              'f:reason': {}
+              'f:status': {}
+              'f:type': {}
+            'k:{"type":"NetworkUnavailable"}':
+              .: {}
+              'f:lastHeartbeatTime': {}
+              'f:lastTransitionTime': {}
+              'f:message': {}
+              'f:reason': {}
+              'f:status': {}
+              'f:type': {}
+            'k:{"type":"PIDPressure"}':
+              .: {}
+              'f:lastHeartbeatTime': {}
+              'f:lastTransitionTime': {}
+              'f:message': {}
+              'f:reason': {}
+              'f:status': {}
+              'f:type': {}
+            'k:{"type":"Ready"}':
+              .: {}
+              'f:lastHeartbeatTime': {}
+              'f:lastTransitionTime': {}
+              'f:message': {}
+              'f:reason': {}
+              'f:status': {}
+              'f:type': {}
+          'f:daemonEndpoints':
+            'f:kubeletEndpoint':
+              'f:Port': {}
+          'f:images': {}
+          'f:nodeInfo':
+            'f:architecture': {}
+            'f:bootID': {}
+            'f:containerRuntimeVersion': {}
+            'f:kernelVersion': {}
+            'f:kubeProxyVersion': {}
+            'f:kubeletVersion': {}
+            'f:machineID': {}
+            'f:operatingSystem': {}
+            'f:osImage': {}
+            'f:systemUUID': {}
+spec:
+  podCIDR: 10.42.0.0/24
+  podCIDRs:
+    - 10.42.0.0/24
+  providerID: 'k3s://nuc'
+  taints:
+    - key: node.kubernetes.io/disk-pressure
+      effect: NoSchedule
+      timeAdded: '2021-01-07T07:47:02Z'
+status:
+  capacity:
+    cpu: '4'
+    ephemeral-storage: 26321588Ki
+    hugepages-1Gi: '0'
+    hugepages-2Mi: '0'
+    memory: 8028536Ki
+    pods: '110'
+  allocatable:
+    cpu: '4'
+    ephemeral-storage: '25605640787'
+    hugepages-1Gi: '0'
+    hugepages-2Mi: '0'
+    memory: 8028536Ki
+    pods: '110'
+  conditions:
+    - type: NetworkUnavailable
+      status: 'False'
+      lastHeartbeatTime: '2020-12-24T06:13:48Z'
+      lastTransitionTime: '2020-12-24T06:13:48Z'
+      reason: FlannelIsUp
+      message: Flannel is running on this node
+    - type: MemoryPressure
+      status: 'True'
+      lastHeartbeatTime: '2021-01-07T07:47:22Z'
+      lastTransitionTime: '2020-12-24T06:13:29Z'
+      reason: KubeletHasSufficientMemory
+      message: kubelet has sufficient memory available
+    - type: DiskPressure
+      status: 'False'
+      lastHeartbeatTime: '2021-01-07T07:47:22Z'
+      lastTransitionTime: '2021-01-07T07:47:02Z'
+      reason: KubeletHasDiskPressure
+      message: kubelet has disk pressure
+    - type: PIDPressure
+      status: 'False'
+      lastHeartbeatTime: '2021-01-07T07:47:22Z'
+      lastTransitionTime: '2020-12-24T06:13:29Z'
+      reason: KubeletHasSufficientPID
+      message: kubelet has sufficient PID available
+    - type: Ready
+      status: 'True'
+      lastHeartbeatTime: '2021-01-07T07:47:22Z'
+      lastTransitionTime: '2020-12-24T06:13:41Z'
+      reason: KubeletReady
+      message: kubelet is posting ready status
+  addresses:
+    - type: InternalIP
+      address: 192.168.0.100
+    - type: Hostname
+      address: nuc
+  daemonEndpoints:
+    kubeletEndpoint:
+      Port: 10250
+  nodeInfo:
+    machineID: 94d9f01303b94edbb2c6e97649f65f44
+    systemUUID: f64a8380-7277-11e3-bb76-b8aeed73d312
+    bootID: ab9cac7d-6515-4c68-b411-84aec0e8612b
+    kernelVersion: 5.8.11-200.fc32.x86_64
+    osImage: Fedora 32 (Workstation Edition)
+    containerRuntimeVersion: 'containerd://1.4.3-k3s1'
+    kubeletVersion: v1.19.5+k3s2
+    kubeProxyVersion: v1.19.5+k3s2
+    operatingSystem: linux
+    architecture: amd64
+  images:
+    - names:
+        - >-
+          docker.io/selenium/standalone-chrome@sha256:f4d1937a395ef6d3fcb0319e833b8eeb467821eb7313e90e4fc70d334a29ff6d
+        - 'docker.io/selenium/standalone-chrome:4.0.0'
+      sizeBytes: 386995932
+    - names:
+        - >-
+          docker.io/tons/surf-easy-edit@sha256:56ab7c68ebbe6c1496a9d5c4a67b521c27d3c7387884af0b20792e57691d7d72
+        - 'docker.io/tons/surf-easy-edit:latest'
+      sizeBytes: 125709445
+    - names:
+        - >-
+          docker.io/bitnami/postgresql@sha256:eb8c097c62842822de29c7a80ddf02890f24f932e077c6880e4e73a434273c9c
+        - 'docker.io/bitnami/postgresql:11.10.0-debian-10-r9'
+      sizeBytes: 87602007
+    - names:
+        - >-
+          docker.io/tons/whoami-mn@sha256:d3c92aca0aaae0db149e270727e5bf6a4a8e91124b97c424f2055fe18af64a76
+        - 'docker.io/tons/whoami-mn:0.1'
+      sizeBytes: 69334726
+    - names:
+        - >-
+          docker.io/nginxinc/nginx-unprivileged@sha256:28729b871fa8707879cd5e770b7b1665105314d978c3cee81fddb274a6354768
+        - 'docker.io/nginxinc/nginx-unprivileged:1.18'
+      sizeBytes: 53588933
+    - names:
+        - >-
+          docker.io/tons/kubewatcher@sha256:3782f655d3fe91b331ef932ef1b25bc432afe596ab1343df913d5e6adc720c56
+        - 'docker.io/tons/kubewatcher:1.6.0'
+      sizeBytes: 29072406
+    - names:
+        - >-
+          quay.io/jetstack/cert-manager-controller@sha256:53f4fc0a7481c9ce4d6a99c7471c2e07861516f8022254b3272db08e847decb6
+        - 'quay.io/jetstack/cert-manager-controller:v1.0.1'
+      sizeBytes: 25516376
+    - names:
+        - >-
+          docker.io/rancher/library-traefik@sha256:3ba3ed48c4632f2b02671923950b30b5b7f1b556e559ce15446d1f5d648a037d
+        - 'docker.io/rancher/library-traefik:1.7.19'
+      sizeBytes: 24011762
+    - names:
+        - >-
+          quay.io/jetstack/cert-manager-webhook@sha256:36c50f83621c94185fe1bb7bfb4fec6561bc063ca365cd84717c368b5e20cbca
+        - 'quay.io/jetstack/cert-manager-webhook:v1.0.1'
+      sizeBytes: 20037712
+    - names:
+        - >-
+          docker.io/chartmuseum/chartmuseum@sha256:38c5ec3b30046d7a02a55b4c8bd8a0cd279538c2e36090973798a858e900b18e
+        - 'docker.io/chartmuseum/chartmuseum:v0.12.0'
+      sizeBytes: 19881411
+    - names:
+        - >-
+          quay.io/jetstack/cert-manager-cainjector@sha256:dbdf638616c30a51d8c97641bb1d8ea75481a4de4ca469d95dde915e61ee2584
+        - 'quay.io/jetstack/cert-manager-cainjector:v1.0.1'
+      sizeBytes: 19399455
+    - names:
+        - >-
+          docker.io/rancher/coredns-coredns@sha256:e70c936deab8efed89db66f04847fec137dbb81d5b456e8068b6e71cb770f6c0
+        - 'docker.io/rancher/coredns-coredns:1.6.9'
+      sizeBytes: 13403638
+    - names:
+        - >-
+          docker.io/rancher/local-path-provisioner@sha256:40cb8c984c1759f1860eee088035040f47051c959a6d07cdb126e132c6f43b45
+        - 'docker.io/rancher/local-path-provisioner:v0.0.14'
+      sizeBytes: 13367922
+    - names:
+        - >-
+          docker.io/rancher/metrics-server@sha256:b85628b103169d7db52a32a48b46d8942accb7bde3709c0a4888a23d035f9f1e
+        - 'docker.io/rancher/metrics-server:v0.3.6'
+      sizeBytes: 10543877
+    - names:
+        - >-
+          docker.io/nginxinc/nginx-unprivileged@sha256:48ec8434394a0fcdc66c7c1b91a7b4954f8c9fb015bf833864fe01d1a4401a03
+        - 'docker.io/nginxinc/nginx-unprivileged:1.18-alpine'
+      sizeBytes: 9506601
+    - names:
+        - >-
+          docker.io/rancher/klipper-lb@sha256:2fb97818f5d64096d635bc72501a6cb2c8b88d5d16bc031cf71b5b6460925e4a
+        - 'docker.io/rancher/klipper-lb:v0.1.2'
+      sizeBytes: 2708293
+    - names:
+        - >-
+          docker.io/library/busybox@sha256:bde48e1751173b709090c2539fdf12d6ba64e88ec7a4301591227ce925f3c678
+        - 'docker.io/library/busybox:latest'
+        - 'docker.io/library/busybox:1.32'
+      sizeBytes: 768697
+
