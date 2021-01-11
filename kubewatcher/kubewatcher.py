@@ -4,6 +4,7 @@ from collections import defaultdict
 from typing import List
 
 import kubernetes as k8s
+from envyaml import EnvYAML
 from kubernetes.config import incluster_config, kube_config
 from ruamel import yaml
 
@@ -87,3 +88,17 @@ class KubeWatcher(object):
             incluster_config.load_incluster_config()
         else:
             kube_config.load_kube_config(kube_config_file, context)
+
+    def test_filters(self, verbose: bool):
+        failed = False
+        for f in self.filters:
+            for test in f.tests:
+                data = EnvYAML(test).export()
+                triggered = f.trigger(data)
+                if not triggered:
+                    failed = True
+                    print(f"❌ {yaml.dump(f)}")
+                elif verbose:
+                    print(f"✅ {yaml.dump(f)}")
+        if not failed:
+            print(f"✅ All filter tests passed!")
