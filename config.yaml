@@ -1,4 +1,5 @@
-#handlers:
+handlers:
+  log: {}
 #  telegram:
 #    token: $TELEGRAM_HANDLER_API_TOKEN
 #    chatId: $TELEGRAM_HANDLER_CHAT_ID

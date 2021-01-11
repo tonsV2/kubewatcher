@@ -23,6 +23,9 @@ def run_in_executor(f):
 @run_in_executor
 def handle(config, message, raw_object):
     if 'handlers' in config:
+        if 'log' in config['handlers']:
+            log(message)
+
         if 'slack' in config['handlers']:
             post_message_to_slack(config, message)
 
@@ -33,6 +36,10 @@ def handle(config, message, raw_object):
             post_message_to_telegram(config, message)
     else:
         logging.info("WARNING: No handlers configured!")
+
+
+def log(message):
+    logging.info(f"Handler:Log: {message}")
 
 
 # Inspiration: https://www.tutorialspoint.com/send-mail-from-your-gmail-account-using-python
