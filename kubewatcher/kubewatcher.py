@@ -91,13 +91,17 @@ class KubeWatcher(object):
     def test_filters(self, verbose: bool):
         failed = False
         for f in self.filters:
-            for test in f.tests:
-                data = EnvYAML(test).export()
-                triggered = f.trigger(data)
-                if not triggered:
-                    failed = True
-                    print(f"❌ {yaml.dump(f)}")
-                elif verbose:
-                    print(f"✅ {yaml.dump(f)}")
+            if not f.tests:
+                failed = True
+                print(f"❌ Missing tests {yaml.dump(f)}")
+            else:
+                for test in f.tests:
+                    data = EnvYAML(test).export()
+                    triggered = f.trigger(data)
+                    if not triggered:
+                        failed = True
+                        print(f"❌ {yaml.dump(f)}")
+                    elif verbose:
+                        print(f"✅ {yaml.dump(f)}")
         if not failed:
             print(f"✅ All filter tests passed!")

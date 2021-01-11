@@ -8,7 +8,7 @@ class Filter(object):
         self.namespaces: {} = filter['namespaces'] if 'namespaces' in filter else None
         self.conditions: [] = filter['conditions']
         self.message_data: {} = filter['message']
-        self.tests: [] = filter['tests']
+        self.tests: [] = filter['tests'] if 'tests' in filter else None
 
     def generate_message(self, raw_object: {}) -> str:
         attributes = {attribute: extract_value(raw_object, path) for attribute, path in self.message_data['attributes'].items()}
