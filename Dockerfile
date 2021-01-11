@@ -11,3 +11,4 @@ WORKDIR /app
 COPY --from=builder /app .
 USER guest
 ENTRYPOINT ["kubewatcher"]
+CMD ["watch"]
