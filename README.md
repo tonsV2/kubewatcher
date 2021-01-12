@@ -6,7 +6,7 @@ Simple and highly configurable Kubernetes monitor
 
 The idea is that you define a filter and if there's a match you'll get a message via Slack, Telegram or mail.
 
-Out of the box you'll get notified about nodes with disk, memory or PID pressure. Deployments configured with nonexistent Docker images, failing Jobs and any events of type warning.
+Out of the box you'll get notified about nodes with disk, memory or PID pressure, deployments configured with nonexistent Docker images, failing Jobs and any events of type warning.
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
