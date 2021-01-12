@@ -18,9 +18,7 @@ class KubeWatcher(object):
         self.config = config
 
         self.filters: [Filter] = [Filter(f) for f in self.config['filters']]
-        self.filters_by_kind = defaultdict(list)
-        for f in self.filters:
-            self.filters_by_kind[f.kind].append(f)
+        self.filters_by_kind: {} = self.__index_filters_by_kind(self.filters)
 
     def watch(self, kube_config_file, context):
         self.__read_kube_config(kube_config_file, context)
@@ -53,6 +51,13 @@ class KubeWatcher(object):
         for kind, resource in resources.items():
             launcher.launch(self.__resource_watcher, [resource, self.filters_by_kind[kind], kind])
         launcher.join()
+
+    @staticmethod
+    def __index_filters_by_kind(filters: [Filter]):
+        filters_by_kind = defaultdict(list)
+        for f in filters:
+            filters_by_kind[f.kind].append(f)
+        return filters_by_kind
 
     def __resource_watcher(self, resource: classmethod, filters: {}, kind: str) -> None:
         resource_version = 0
