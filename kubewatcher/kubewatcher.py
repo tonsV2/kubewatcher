@@ -20,7 +20,7 @@ class KubeWatcher(object):
         self.filters: [Filter] = [Filter(f) for f in self.config['filters']]
         self.filters_by_kind: {} = self.__index_filters_by_kind(self.filters)
 
-    def watch(self, kube_config_file, context):
+    def watch(self, kube_config_file: str, context: str):
         self.__read_kube_config(kube_config_file, context)
 
         core_api = k8s.client.CoreV1Api()
