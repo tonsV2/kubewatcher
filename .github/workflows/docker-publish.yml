@@ -44,8 +44,10 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Build image
-        # TODO: Build using docker-compose
-        run: docker build . --file Dockerfile --tag $IMAGE_NAME
+        run: |
+          docker build . --tag $IMAGE_NAME
+          docker run -it $IMAGE_NAME --help
+          docker run -it -v "$PWD/config.yaml":/app/config.yaml -v "$PWD/tests":/app/tests $IMAGE_NAME test-filters -v
 
       - name: Log into registry
         run: echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
