@@ -63,6 +63,8 @@ kubewatcher watch
 ```
 
 ## Docker
+The Docker images are hosted at Docker Hub and can be found [here](https://hub.docker.com/r/tons/kubewatcher/tags?page=1&ordering=last_updated).
+
 ```bash
 docker-compose up
 ```
