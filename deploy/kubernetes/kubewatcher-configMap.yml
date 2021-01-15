@@ -1,0 +1,109 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: kubewatcher-config
+  namespace: monitoring
+data:
+  config.yaml: |
+    handlers:
+      log: {}
+      slack:
+        channel: "${SLACK_HANDLER_CHANNEL}"
+        token: $SLACK_HANDLER_TOKEN
+        username: KubeWatcher
+        icon: https://github.com/tonsV2/kubewatcher/raw/master/icons/icon.png
+
+
+    filters:
+      - kind: Node
+        apiVersion: v1
+        conditions:
+          - status.conditions[type == DiskPressure][status == True]
+        message:
+          template: "Node: {NAME} has disk pressure"
+          attributes:
+            NAME: metadata.name
+        tests: [ tests/data/node-DiskPressure.yaml ]
+
+      - kind: Node
+        apiVersion: v1
+        conditions:
+          - status.conditions[type == MemoryPressure][status == True]
+        message:
+          template: "Node: {NAME} has memory pressure"
+          attributes:
+            NAME: metadata.name
+        tests: [ tests/data/node-MemoryPressure.yaml ]
+
+      - kind: Node
+        apiVersion: v1
+        conditions:
+          - status.conditions[type == PIDPressure][status == True]
+        message:
+          template: "Node: {NAME} has PID pressure"
+          attributes:
+            NAME: metadata.name
+        tests: [ tests/data/node-PIDPressure.yaml ]
+
+      - kind: Pod
+        apiVersion: v1
+    #    namespaces:
+    #      include:
+    #        - surf-screenshotter-dev
+    #      ignore:
+    #        - heptio-sonobuoy
+        conditions:
+          - status.containerStatuses.*.state.terminated[exitCode != 0]
+        message:
+          template: "Pod: {NAME} in {NAMESPACE} terminated with nonzero exit code"
+          attributes:
+            NAME: metadata.name
+            NAMESPACE: metadata.namespace
+        tests:
+          - tests/data/pod-non-zero-exit-code.yaml
+
+      - kind: Pod
+        apiVersion: v1
+        conditions:
+          - status.containerStatuses[restartCount > 10]
+        message:
+          template: "Pod: {NAME} in {NAMESPACE} has restarted {RESTART_COUNT} times"
+          attributes:
+            NAME: metadata.name
+            NAMESPACE: metadata.namespace
+            RESTART_COUNT: status.containerStatuses[restartCount > 10].restartCount
+        tests: [ tests/data/pod-restarted.yaml ]
+
+      - kind: Event
+        apiVersion: v1
+        conditions:
+          - '[type == Warning]'
+    #      - [reason != ImageGCFailed]
+    #      - [reason != FreeDiskSpaceFailed]
+        message:
+          template: "Event: Warning {NAME} in {NAMESPACE} (reason: {REASON}, message: {MESSAGE})"
+          attributes:
+            NAME: metadata.name
+            NAMESPACE: metadata.namespace
+            REASON: reason
+            MESSAGE: message
+        tests:
+          - tests/data/event-fail-BackOff.yaml
+          - tests/data/event-warning.yaml
+
+      - kind: Job
+        apiVersion: batch/v1
+        conditions:
+          - status.conditions[type == Failed]
+        message:
+          template: "Job: {NAME} in {NAMESPACE} failed (reason: {REASON}, message: {MESSAGE})"
+          attributes:
+            NAME: metadata.name
+            NAMESPACE: metadata.namespace
+            REASON: status.conditions[type == Failed].reason
+            MESSAGE: status.conditions[type == Failed].message
+        tests: [ tests/data/job-failed.yaml ]
+
+    settings:
+      dryRun: false
+      debug: false

@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kubewatcher
+  namespace: monitoring
+spec:
+  selector:
+    matchLabels:
+      k8s-app: kubewatcher
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        k8s-app: kubewatcher
+    spec:
+      serviceAccountName: kubewatcher-sa
+      containers:
+        - name: kubewatcher
+          image: tons/kubewatcher:1.7.0
+          env:
+          - name: SLACK_HANDLER_CHANNEL
+            value: "test"
+          - name: SLACK_HANDLER_TOKEN
+            value: "xoxb-XXXXXXXXXXXXXX"
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: 100m
+              memory: 128Mi
+          volumeMounts:
+            - name: config
+              mountPath: /app/config.yaml
+              subPath: config.yaml
+      volumes:
+        - name: config
+          configMap:
+            name: kubewatcher-config
